@@ -100,4 +100,28 @@ class SoalKompetensiController extends Controller
 
         return redirect()->route('soal-kompetensi.index')->with('flash_message', 'Soal Kompetensi Berhasil Dihapus!');
     }
+
+    public function kompetensiUmum(Request $request): View
+    {
+        $questions = SoalKompetensi::where('kategori', 'umum')->get();
+        $questionNumber = 1; // Initialize question number
+        $totalQuestions = $questions->count();
+
+        return view('kompetensi-umum', [
+            'kategori' => 'umum',
+            'questions' => $questions,
+            'questionNumber' => $questionNumber,
+            'totalQuestions' => $totalQuestions,
+        ]);
+    }
+
+    public function storeJawaban(Request $request): RedirectResponse
+    {
+        $answers = json_decode($request->input('jawaban'), true);
+        $kategori = $request->input('kategori');
+
+        // Process the answers here...
+
+        return redirect()->route('kompetensi-umum.hasil');
+    }
 }

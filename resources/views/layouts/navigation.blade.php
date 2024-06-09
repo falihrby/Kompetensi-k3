@@ -1,3 +1,8 @@
+@php
+use Illuminate\Support\Facades\Auth;
+@endphp
+
+
 <x-slot name="header">
     <div class="fixed top-0 left-0 z-50 w-full bg-green-600 shadow-lg">
         <div class="flex items-center justify-between px-4 py-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -39,7 +44,7 @@
                                         <x-dropdown-link :href="route('logout')"
                                             onclick="event.preventDefault();
                                                             this.closest('form').submit();">
-                                            {{ __('Log Out') }}
+                                            {{ __('Keluar Akun') }}
                                         </x-dropdown-link>
                                     </form>
                                 </x-slot>

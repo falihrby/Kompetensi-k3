@@ -12,7 +12,9 @@ class AddUserIdToPesertasTable extends Migration
     public function up(): void
     {
         Schema::table('pesertas', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained()->onDelete('cascade')->after('id');
+            if (!Schema::hasColumn('pesertas', 'user_id')) {
+                $table->foreignId('user_id')->constrained()->onDelete('cascade')->after('id');
+            }
         });
     }
 

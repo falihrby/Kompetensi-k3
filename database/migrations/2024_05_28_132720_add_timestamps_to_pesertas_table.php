@@ -12,7 +12,12 @@ class AddTimestampsToPesertasTable extends Migration
     public function up(): void
     {
         Schema::table('pesertas', function (Blueprint $table) {
-            $table->timestamps();
+            if (!Schema::hasColumn('pesertas', 'created_at')) {
+                $table->timestamp('created_at')->nullable();
+            }
+            if (!Schema::hasColumn('pesertas', 'updated_at')) {
+                $table->timestamp('updated_at')->nullable();
+            }
         });
     }
 
@@ -22,7 +27,7 @@ class AddTimestampsToPesertasTable extends Migration
     public function down(): void
     {
         Schema::table('pesertas', function (Blueprint $table) {
-            $table->dropTimestamps();
+            $table->dropColumn(['created_at', 'updated_at']);
         });
     }
 }
