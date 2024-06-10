@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\KompetensiResult;
 use App\Models\Peserta;
-use Illuminate\Support\Facades\Log;
 use App\Models\SoalKompetensi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class KompetensiUmumController extends Controller
 {
@@ -85,6 +85,7 @@ class KompetensiUmumController extends Controller
                 'total_questions' => $totalQuestions,
             ]);
         } catch (\Exception $e) {
+            Log::error('Error saving hasil kompetensi: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
 

@@ -144,7 +144,7 @@
                     </div>
                 </div>
 
-                <x-sidebar-nav-link :href="route('akun.akun-peserta')" :active="request()->routeIs('akun.akun-peserta')">
+                <x-sidebar-nav-link :href="route('akun-peserta.index')" :active="request()->routeIs('akun-peserta.index')">
                     <x-slot name="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                             class="w-6 h-6 mr-2">

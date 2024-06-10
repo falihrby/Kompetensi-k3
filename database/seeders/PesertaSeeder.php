@@ -3,29 +3,24 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Peserta;
 
 class PesertaSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
     {
-        // Ambil semua user yang memiliki tipe "user"
-        $users = User::where('usertype', 'user')->get();
+        // Sample data for pesertas table
+        $pesertas = [
+            ['id' => 3, 'user_id' => 3, 'nama' => 'Ali Ahmad', 'nomor' => '54321', 'program_studi' => 'Mathematics', 'fakultas' => 'Science', 'instansi' => 'University C', 'email' => 'ali@example.com', 'password' => Hash::make('password'), 'kategori_ujian_wajib' => 'Statistics'],
+            // Add more sample data as needed
+        ];
 
-        // Loop melalui setiap user dan tambahkan mereka ke tabel pesertas
-        foreach ($users as $user) {
-            Peserta::updateOrCreate(
-                ['user_id' => $user->id], 
-                [
-                    'user_id' => $user->id,
-                    'nama' => $user->name,
-                    'nomor' => '11200000000000',
-                    'program_studi' => 'Teknik Informatika',
-                    'fakultas' => 'Sains dan Teknologi',
-                    'instansi' => 'UIN Syarif Hidayatullah Jakarta',
-                ]
-            );
-        }
+        // Insert sample data into pesertas table
+        DB::table('pesertas')->insert($pesertas);
     }
 }

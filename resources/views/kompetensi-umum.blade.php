@@ -276,7 +276,7 @@
                 .then(response => {
                     if (!response.ok) {
                         return response.text().then(text => {
-                            console.error('Server error response:', text); // Log the full error response
+                            console.error('Server error response:', text);
                             throw new Error(text);
                         });
                     }
@@ -286,6 +286,7 @@
                     if (data.success) {
                         showSuccessMessage();
                         hideModal();
+                        redirectToResults(); // Panggil redirect ke halaman hasil
                     } else {
                         console.error(data.message);
                         alert('Error: ' + data.message);
