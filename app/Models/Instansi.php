@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProgramStudi extends Model
+class Instansi extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['id', 'nama'];
+    protected $table = 'instansi';
+    protected $fillable = ['id', 'name'];
     public $incrementing = false;
     protected $keyType = 'string';
 

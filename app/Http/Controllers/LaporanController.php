@@ -2,28 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Laporan;
-use Illuminate\Http\Request;
+use App\Models\KompetensiResult;
 use Illuminate\View\View;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\LaporansExport;
 
 class LaporanController extends Controller
 {
     public function index(): View
     {
-        $laporans = Laporan::all();
-        return view('laporan.laporan', compact('laporans'));
+        $kompetensiResults = KompetensiResult::paginate(15);
+        return view('laporan.laporan', compact('kompetensiResults'));
     }
 
-    public function show($id): View
+    public function cetakPeserta()
     {
-        $laporan = Laporan::findOrFail($id);
-        return view('laporan.detail', compact('laporan'));
+        $kompetensiResults = KompetensiResult::get();
+        return view('laporan.cetak-laporan', compact('kompetensiResults'));
     }
 
-    public function exportExcel()
+    public function show($id)
     {
-        return Excel::download(new LaporansExport, 'laporans.xlsx');
+        $kompetensiResult = KompetensiResult::findOrFail($id);
+        return view('laporan.detail', compact('kompetensiResult'));
     }
 }

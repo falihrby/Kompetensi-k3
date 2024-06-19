@@ -12,7 +12,7 @@ class SoalKompetensiController extends Controller
 {
     public function index(Request $request): View
     {
-        $soalKompetensis = SoalKompetensi::all();
+        $soalKompetensis = SoalKompetensi::paginate(15);
         return view('soal.soal-kompetensi', ['soalKompetensis' => $soalKompetensis]);
     }
 
@@ -119,8 +119,6 @@ class SoalKompetensiController extends Controller
     {
         $answers = json_decode($request->input('jawaban'), true);
         $kategori = $request->input('kategori');
-
-        // Process the answers here...
 
         return redirect()->route('kompetensi-umum.hasil');
     }

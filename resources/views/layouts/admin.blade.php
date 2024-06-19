@@ -20,7 +20,7 @@
 </head>
 
 <body class="font-sans antialiased bg-gray-100">
-    <div class="flex min-h-screen md:flex " x-data="{ open: true }">
+    <div class="flex min-h-screen md:flex" x-data="{ open: true }">
         <!-- Sidebar -->
         <aside :class="{ '-translate-x-full': !open }"
             class="absolute inset-y-0 left-0 z-10 w-64 h-screen px-2 py-4 overflow-y-auto text-green-600 transition duration-200 ease-in-out transform bg-white shadow-lg md:relative md:translate-x-0"
@@ -67,7 +67,7 @@
                     </x-slot>
                     {{ __('Soal Kompetensi') }}
                 </x-sidebar-nav-link>
-                <x-sidebar-nav-link :href="route('laporan.laporan')" :active="request()->routeIs('laporan.laporan')">
+                <x-sidebar-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.index')">
                     <x-slot name="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                             class="w-6 h-6 mr-2">
@@ -101,7 +101,7 @@
                     <!-- Submenu Departemen -->
                     <div x-show="openDepartemen" class="pl-8">
                         <!-- Program Studi -->
-                        <x-sidebar-nav-link :href="route('prodi.program-studi')" :active="request()->routeIs('prodi.program-studi')">
+                        <x-sidebar-nav-link :href="route('program-studi.index')" :active="request()->routeIs('program-studi.index')">
                             <x-slot name="icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                     class="w-6 h-6 mr-2">
@@ -112,7 +112,7 @@
                             {{ __('Program Studi') }}
                         </x-sidebar-nav-link>
                         <!-- Fakultas -->
-                        <x-sidebar-nav-link :href="route('fakultas.fakultas')" :active="request()->routeIs('fakultas.fakultas')">
+                        <x-sidebar-nav-link :href="route('fakultas.index')" :active="request()->routeIs('fakultas.index')">
                             <x-slot name="icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                     class="w-6 h-6 mr-2">
@@ -127,7 +127,7 @@
                             {{ __('Fakultas') }}
                         </x-sidebar-nav-link>
                         <!-- Instansi -->
-                        <x-sidebar-nav-link :href="route('instansi.instansi')" :active="request()->routeIs('instansi.instansi')">
+                        <x-sidebar-nav-link :href="route('instansi.index')" :active="request()->routeIs('instansi.index')">
                             <x-slot name="icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                     class="w-6 h-6 mr-2">
@@ -195,7 +195,7 @@
                     </div>
                 </div>
             </nav>
-            <div class="md:ml-64 sm:m-0"">
+            <div class="md:ml-64 sm:m-0">
                 {{ $slot }}
             </div>
         </main>

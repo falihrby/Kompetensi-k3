@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProgramStudi;
 use App\Models\SoalKompetensi;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,7 @@ class HomeController extends Controller
 
     public function soalKompetensi()
     {
-        $soalKompetensis = SoalKompetensi::all();
-        return view('soal.soal-kompetensi', compact('soalKompetensis'));
+        return view('soal.soal-kompetensi');
     }
 
     public function laporan()

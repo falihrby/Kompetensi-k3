@@ -77,7 +77,7 @@
                     <div class="w-2/3 p-2 text-sm border border-gray-300 rounded-lg bg-gray-50">{{ $akunPeserta->email }}</div>
                 </div>
                 <div class="flex items-center my-4 space-x-4">
-                    <label class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
+                    <label class="flex justify-between w-1/3 text-sm font-medium text-gray-700 text-wrap">
                         <span>Password</span>
                         <span>:</span>
                     </label>

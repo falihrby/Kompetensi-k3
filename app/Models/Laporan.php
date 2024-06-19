@@ -21,6 +21,6 @@ class Laporan extends Model
         'waktu_selesai',
         'total_soal',
         'jumlah_soal_benar',
-        'jumlah_soal_salah'
+        'jumlah_soal_salah',
     ];
 }

@@ -1,5 +1,4 @@
 <x-admin-layout>
-    <!-- content -->
     <div class="px-2 py-8">
         <div class="sm:px-6 lg:px-8">
             <div class="flex flex-col space-y-4 md:flex-row md:justify-between md:space-y-0">
@@ -11,7 +10,7 @@
                         </svg>
                     </div>
                     <div class="flex flex-col mx-4">
-                        <h4 class="text-3xl font-bold text-green-700">64</h4>
+                        <h4 class="text-3xl font-bold text-green-700">{{ $jumlahPesertaUjian }}</h4>
                         <div class="font-medium text-gray-700">Peserta Ujian</div>
                     </div>
                 </div>
@@ -23,7 +22,7 @@
                         </svg>
                     </div>
                     <div class="flex flex-col mx-4">
-                        <h4 class="text-3xl font-bold text-green-700">7</h4>
+                        <h4 class="text-3xl font-bold text-green-700">{{ $jumlahProgramStudi }}</h4>
                         <div class="font-medium text-gray-700">Program Studi</div>
                     </div>
                 </div>
@@ -39,7 +38,7 @@
                         </svg>
                     </div>
                     <div class="flex flex-col mx-4">
-                        <h4 class="text-3xl font-bold text-green-700">3</h4>
+                        <h4 class="text-3xl font-bold text-green-700">{{ $jumlahFakultas }}</h4>
                         <div class="font-medium text-gray-700">Fakultas</div>
                     </div>
                 </div>
@@ -55,13 +54,11 @@
                         </svg>
                     </div>
                     <div class="flex flex-col mx-4">
-                        <h4 class="text-3xl font-bold text-green-700">1</h4>
+                        <h4 class="text-3xl font-bold text-green-700">{{ $jumlahInstansi }}</h4>
                         <div class="font-medium text-gray-700">Instansi</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End content -->
-
 </x-admin-layout>

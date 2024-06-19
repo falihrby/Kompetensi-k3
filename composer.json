@@ -14,7 +14,9 @@
         "laravel/breeze": "^2.0",
         "laravel/framework": "*",
         "laravel/tinker": "^2.9",
-        "maatwebsite/excel": "*",
+        "maatwebsite/excel": "^3.1",
+        "setasign/fpdf": "^1.8",
+        "setasign/fpdi": "^2.6",
         "spatie/laravel-ignition": "*"
     },
     "require-dev": {

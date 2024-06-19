@@ -1,5 +1,3 @@
-<!-- resources/views/kompetensi-umum.blade.php -->
-
 <x-app-layout>
     @include('layouts.navigation')
 
@@ -99,9 +97,9 @@
         class="fixed inset-0 z-50 items-center justify-center hidden bg-gray-800 bg-opacity-75">
         <div class="flex flex-col justify-center items-center px-5 py-6 bg-white rounded-2xl shadow-sm max-w-[342px]">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-12 h-12 text-green-500">
+                stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"></path>
+                    d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
             </svg>
             <h3 class="mt-2 text-xl font-bold text-center text-slate-800">Apakah kamu yakin ingin menyelesaikan ujian?
             </h3>
@@ -128,6 +126,13 @@
         let answers = JSON.parse(sessionStorage.getItem('answers') || '[]');
 
         document.addEventListener('DOMContentLoaded', function() {
+            if (!sessionStorage.getItem('questionNumber') || sessionStorage.getItem('questionNumber') < 1) {
+                questionNumber = 1;
+                sessionStorage.setItem('questionNumber', questionNumber);
+            } else {
+                questionNumber = parseInt(sessionStorage.getItem('questionNumber'));
+            }
+
             if (totalQuestions > 0) {
                 displayQuestion(questionNumber - 1);
                 generateQuestionNumbers();
@@ -166,12 +171,12 @@
                 optionElement.setAttribute('onclick', `selectOption('${option}')`);
 
                 optionElement.innerHTML = `
-                    <input type="radio" name="jawaban" value="${option}" id="option-${option}" class="hidden">
-                    <label for="option-${option}" class="flex items-center w-full cursor-pointer">
-                        <div class="flex-shrink-0 text-sm font-semibold text-center sm:w-12">${option}.</div>
-                        <div class="flex-grow w-full text-sm break-words">${question['opsi_' + option.toLowerCase()]}</div>
-                    </label>
-                `;
+            <input type="radio" name="jawaban" value="${option}" id="option-${option}" class="hidden">
+            <label for="option-${option}" class="flex items-center w-full cursor-pointer">
+                <div class="flex-shrink-0 text-sm font-semibold text-center sm:w-12">${option}.</div>
+                <div class="flex-grow w-full text-sm break-words">${question['opsi_' + option.toLowerCase()]}</div>
+            </label>
+        `;
 
                 optionsContainer.appendChild(optionElement);
 
@@ -257,47 +262,62 @@
             window.location.href = "{{ route('kompetensi-umum.hasil') }}";
         }
 
-        function submitForm() {
+        async function submitForm() {
             saveAnswer();
 
             const form = document.getElementById('answer-form');
             const answersInput = document.getElementById('answers');
             answersInput.value = JSON.stringify(answers);
 
+            console.log('Answers being submitted:', answers); // Log untuk memastikan jawaban yang dikirim
+
             const formData = new FormData(form);
 
-            fetch("{{ route('kompetensi-umum.storeJawaban') }}", {
+            try {
+                const response = await fetch("{{ route('kompetensi-umum.storeJawaban') }}", {
                     method: 'POST',
                     body: formData,
                     headers: {
-                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content')
                     }
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.text().then(text => {
-                            console.error('Server error response:', text);
-                            throw new Error(text);
-                        });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        showSuccessMessage();
-                        hideModal();
-                        redirectToResults(); // Panggil redirect ke halaman hasil
-                    } else {
-                        console.error(data.message);
-                        alert('Error: ' + data.message);
-                        hideModal();
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error.message);
-                    alert('Error: ' + error.message);
-                    hideModal();
                 });
+
+                console.log('Response:', response); // Tambahkan log ini untuk debugging
+
+                if (!response.ok) {
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        const errorData = await response.json();
+                        console.error('Error:', errorData.message || 'Unknown server error');
+                        alert('Error: ' + (errorData.message || 'Unknown server error'));
+                    } else {
+                        const errorText = await response.text();
+                        console.error('Server error response:', errorText);
+                        alert('Server error response: ' + errorText);
+                    }
+                    hideModal();
+                    return;
+                }
+
+                const data = await response.json();
+                console.log('Data:', data); // Tambahkan log ini untuk debugging
+
+                if (data.success) {
+                    // Tampilkan data hasil kompetensi di konsol
+                    console.log('Hasil Kompetensi:', data.data);
+
+                    window.location.href = data.redirect_url;
+                } else {
+                    console.error('Error:', data.message);
+                    alert('Error: ' + data.message);
+                    hideModal();
+                }
+            } catch (error) {
+                console.error('Fetch error:', error); // Tambahkan log ini untuk debugging
+                alert('Fetch error: ' + error.message);
+                hideModal();
+            }
         }
 
         function saveAnswer() {
