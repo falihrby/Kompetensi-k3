@@ -58,8 +58,6 @@
                             <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">
                                 Nama</th>
                             <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">
-                                Password</th>
-                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">
                                 Program Studi</th>
                             <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">
                                 Fakultas</th>
@@ -75,8 +73,7 @@
                                 <td class="px-4 py-2 text-xs align-top whitespace-nowrap">{{ $loop->iteration }}</td>
                                 <td class="px-4 py-2 text-xs align-top whitespace-nowrap">{{ str_pad($peserta->id, 4, '0', STR_PAD_LEFT) }}</td>
                                 <td class="px-4 py-2 text-xs break-all whitespace-normal align-top">{{ $peserta->email }}</td>
-                                <td class="px-4 py-2 text-xs break-all whitespace-normal align-top">{{ $peserta->nama }}</td>
-                                <td class="px-4 py-2 text-xs break-all whitespace-normal align-top">{{ $peserta->password }}</td>
+                                <td class="px-4 py-2 text-xs break-all whitespace-normal align-top">{{ $peserta->name }}</td>
                                 <td class="px-4 py-2 text-xs align-top whitespace-nowrap">{{ $peserta->program_studi }}</td>
                                 <td class="px-4 py-2 text-xs align-top whitespace-nowrap">{{ $peserta->fakultas }}</td>
                                 <td class="px-4 py-2 text-xs align-top whitespace-nowrap">{{ $peserta->instansi }}</td>

@@ -51,12 +51,12 @@
                         <select id="kategori" name="kategori" required
                             class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
                             <option>Umum</option>
-                            <option>Khusus Lab Agribisnis</option>
-                            <option>Khusus Lab Biologi</option>
-                            <option>Khusus Lab FITISIMAT</option>
-                            <option>Khusus Lab Kimia</option>
-                            <option>Khusus Lab Pengujian</option>
-                            <option>Khusus Lab Pertambangan</option>
+                            <option value="Khusus Agribisnis">Khusus Agribisnis</option>
+                            <option value="Khusus Biologi">Khusus Biologi</option>
+                            <option value="Khusus FITISIMAT">Khusus FITISIMAT</option>
+                            <option value="Khusus Kimia">Khusus Kimia</option>
+                            <option value="Khusus Pengujian">Khusus Pengujian</option>
+                            <option value="Khusus Pertambangan">Khusus Pertambangan</option>
                         </select>
                     </div>
                     <div class="my-4">
@@ -74,6 +74,9 @@
                         <div class="mt-1 text-xs text-gray-500" id="gambar_help">Jika butuh gambar didalam opsi, maka
                             lampirkan gambar seperti berikut <a href="/images/contoh_soal_gambar.png" target="_blank"
                                 class="font-bold text-green-500 hover:text-green-700">Klik ini</a></div>
+                        <button type="button" id="removeImageButton"
+                            class="px-4 py-2 mt-2 text-xs font-semibold text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none">Hapus
+                            Gambar</button>
                     </div>
                     <!-- Opsi A -->
                     <div class="flex items-start my-4 space-x-4">
@@ -131,10 +134,10 @@
                         </label>
                         <select id="kunci_jawaban" name="kunci_jawaban" required
                             class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
-                            <option>Opsi A</option>
-                            <option>Opsi B</option>
-                            <option>Opsi C</option>
-                            <option>Opsi D</option>
+                            <option value="A">Opsi A</option>
+                            <option value="B">Opsi B</option>
+                            <option value="C">Opsi C</option>
+                            <option value="D">Opsi D</option>
                         </select>
                     </div>
                     <div class="flex items-center space-x-2">
@@ -284,6 +287,12 @@
             closeButton.addEventListener('click', function() {
                 const validationPopup = document.getElementById('validationPopup');
                 validationPopup.classList.add('hidden');
+            });
+
+            const removeImageButton = document.getElementById('removeImageButton');
+            removeImageButton.addEventListener('click', function() {
+                const gambarInput = document.getElementById('gambar');
+                gambarInput.value = ''; // Clear the input value
             });
         });
     </script>

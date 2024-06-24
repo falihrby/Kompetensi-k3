@@ -53,24 +53,24 @@
                             <option value="Umum"
                                 {{ old('kategori', $soalKompetensi->kategori) == 'Umum' ? 'selected' : '' }}>Umum
                             </option>
-                            <option value="Khusus Lab Agribisnis"
-                                {{ old('kategori', $soalKompetensi->kategori) == 'Khusus Lab Agribisnis' ? 'selected' : '' }}>
-                                Khusus Lab Agribisnis</option>
-                            <option value="Khusus Lab Biologi"
-                                {{ old('kategori', $soalKompetensi->kategori) == 'Khusus Lab Biologi' ? 'selected' : '' }}>
-                                Khusus Lab Biologi</option>
-                            <option value="Khusus Lab FITISIMAT"
-                                {{ old('kategori', $soalKompetensi->kategori) == 'Khusus Lab FITISIMAT' ? 'selected' : '' }}>
-                                Khusus Lab FITISIMAT</option>
-                            <option value="Khusus Lab Kimia"
-                                {{ old('kategori', $soalKompetensi->kategori) == 'Khusus Lab Kimia' ? 'selected' : '' }}>
-                                Khusus Lab Kimia</option>
-                            <option value="Khusus Lab Pengujian"
-                                {{ old('kategori', $soalKompetensi->kategori) == 'Khusus Lab Pengujian' ? 'selected' : '' }}>
-                                Khusus Lab Pengujian</option>
-                            <option value="Khusus Lab Pertambangan"
-                                {{ old('kategori', $soalKompetensi->kategori) == 'Khusus Lab Pertambangan' ? 'selected' : '' }}>
-                                Khusus Lab Pertambangan</option>
+                            <option value="Khusus Agribisnis"
+                                {{ old('kategori', $soalKompetensi->kategori) == 'Khusus Agribisnis' ? 'selected' : '' }}>
+                                Khusus Agribisnis</option>
+                            <option value="Khusus Biologi"
+                                {{ old('kategori', $soalKompetensi->kategori) == 'Khusus Biologi' ? 'selected' : '' }}>
+                                Khusus Biologi</option>
+                            <option value="Khusus FITISIMAT"
+                                {{ old('kategori', $soalKompetensi->kategori) == 'Khusus FITISIMAT' ? 'selected' : '' }}>
+                                Khusus FITISIMAT</option>
+                            <option value="Khusus Kimia"
+                                {{ old('kategori', $soalKompetensi->kategori) == 'Khusus Kimia' ? 'selected' : '' }}>
+                                Khusus Kimia</option>
+                            <option value="Khusus Pengujian"
+                                {{ old('kategori', $soalKompetensi->kategori) == 'Khusus Pengujian' ? 'selected' : '' }}>
+                                Khusus Pengujian</option>
+                            <option value="Khusus Pertambangan"
+                                {{ old('kategori', $soalKompetensi->kategori) == 'Khusus Pertambangan' ? 'selected' : '' }}>
+                                Khusus Pertambangan</option>
                         </select>
                     </div>
 
@@ -97,6 +97,9 @@
                                     target="_blank" class="font-bold text-green-500 hover:text-green-700">Klik ini</a>
                             </div>
                         @endif
+                        <button type="button" id="removeImageButton"
+                            class="px-4 py-2 mt-2 text-xs font-semibold text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none">Hapus
+                            Gambar</button>
                     </div>
 
                     @foreach (['A', 'B', 'C', 'D'] as $opsi)
@@ -113,13 +116,14 @@
                     @endforeach
 
                     <div class="flex items-center my-4 space-x-4">
-                        <label class="flex justify-between w-1/3 text-sm font-medium text-gray-700" for="kunci_jawaban">
+                        <label class="flex justify-between w-1/3 text-sm font-medium text-gray-700"
+                            for="kunci_jawaban">
                             <span>Jawaban Benar<span class="pl-1 text-red-500">*</span></span>
                             <span>:</span>
                         </label>
                         <select id="kunci_jawaban" name="kunci_jawaban" required
                             class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
-                            @foreach (['Opsi A', 'Opsi B', 'Opsi C', 'Opsi D'] as $jawaban)
+                            @foreach (['A', 'B', 'C', 'D'] as $jawaban)
                                 <option value="{{ $jawaban }}"
                                     {{ old('kunci_jawaban', 'Opsi ' . $soalKompetensi->kunci_jawaban) == $jawaban ? 'selected' : '' }}>
                                     {{ $jawaban }}</option>
@@ -277,7 +281,12 @@
                 const validationPopup = document.getElementById('validationPopup');
                 validationPopup.classList.add('hidden');
             });
+
+            const removeImageButton = document.getElementById('removeImageButton');
+            removeImageButton.addEventListener('click', function() {
+                const gambarInput = document.getElementById('gambar');
+                gambarInput.value = ''; // Clear the input value
+            });
         });
     </script>
-
 </x-admin-layout>

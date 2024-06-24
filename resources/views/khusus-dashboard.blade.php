@@ -1,3 +1,5 @@
+// File: resources/views/khusus-dashboard.blade.php
+
 @php
     use Illuminate\Support\Facades\Auth;
 @endphp
@@ -59,7 +61,7 @@
             <div class="px-4 py-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="flex items-center justify-between p-4">
                     <div class="text-xl font-semibold text-gray-900">
-                        {{ __('Panduan Kompetensi Umum ') }}
+                        {{ __('Panduan Kompetensi Khusus ' . $labName) }}
                     </div>
                 </div>
                 <hr class="h-px my-2 bg-gray-100 border-0 dark:bg-gray-200">
@@ -117,8 +119,12 @@
                         <p class="text-sm font-semibold">WAKTU DIMULAI KETIKA ANDA MENEKAN TOMBOL “MULAI KERJAKAN”</p>
                     </div>
                 </div>
-                <div class="flex justify-end py-4">
-                    <a href="{{ route('kompetensi-umum.index') }}"
+                <div class="flex justify-between py-4">
+                    <a href="{{ route('pilih-lab') }}"
+                        class="inline-flex items-center justify-center px-4 py-2 font-bold text-white bg-green-500 rounded-md hover:bg-green-700">
+                        <span>Kembali</span>
+                    </a>
+                    <a href="{{ route('kompetensi-khusus.index', ['labName' => $labName]) }}"
                         class="inline-flex items-center justify-center px-4 py-2 font-bold text-white bg-green-600 rounded-md hover:bg-green-800">
                         <span>Mulai Kerjakan</span>
                     </a>

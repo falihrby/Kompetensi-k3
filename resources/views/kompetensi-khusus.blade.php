@@ -1,20 +1,18 @@
 <x-app-layout>
     @include('layouts.navigation')
 
-    <input type="hidden" id="kategori" value="{{ $kategori }}">
+    <input type="hidden" id="kategori" value="{{ $labName }}">
     <input type="hidden" id="start_time" value="{{ now() }}">
 
     <div class="p-6">
         <div class="py-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="container mx-auto mt-10">
-                <h1 class="mb-4 text-2xl font-semibold">Kompetensi Umum</h1>
+                <h1 class="mb-4 text-2xl font-semibold">Kompetensi Khusus {{ $labName }}</h1>
                 <div class="flex flex-col mb-4 space-y-4 md:flex-row md:space-y-0 md:space-x-4">
                     <div class="w-full md:flex-grow">
-                        <form id="answer-form" method="POST" action="{{ route('kompetensi-umum.storeJawaban') }}">
+                        <form id="answer-form" method="POST" action="{{ route('kompetensi-khusus.storeJawaban') }}">
                             @csrf
-                            <input type="hidden" name="question_number" id="hidden-question-number"
-                                value="{{ $questionNumber }}">
-                            <input type="hidden" name="kategori" value="{{ $kategori }}">
+                            <input type="hidden" name="kategori" value="{{ $labName }}">
                             <input type="hidden" name="start_time" id="hidden-start-time" value="{{ now() }}">
                             <input type="hidden" name="answers" id="answers">
                             <input type="hidden" name="jawaban" id="hidden-answer">
@@ -22,17 +20,15 @@
                             <div class="p-6 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm"
                                 id="question-card">
                                 <div class="flex flex-col items-center justify-between md:flex-row">
-                                    <h3 class="mb-2 text-xl font-semibold md:mb-0" id="question-title">Soal No.
-                                        {{ $questionNumber }}</h3>
+                                    <h3 class="mb-2 text-xl font-semibold md:mb-0" id="question-title">Soal No. 1</h3>
                                 </div>
                                 <hr class="h-px my-4 bg-gray-100 border-0 dark:bg-gray-200">
                                 @if ($questions->isEmpty())
                                     <p class="text-red-500">Tidak ada pertanyaan yang tersedia.</p>
                                 @else
                                     @php
-                                        $index = intval($questionNumber) - 1;
-                                        $question =
-                                            $index >= 0 && $index < count($questions) ? $questions[$index] : null;
+                                        $index = 0;
+                                        $question = $questions[$index] ?? null;
                                     @endphp
                                     @if ($question)
                                         <div class="mt-4 banner" id="question-image-container">
@@ -55,7 +51,7 @@
                                                             class="flex-shrink-0 text-sm font-semibold text-center sm:w-12">
                                                             {{ $option }}.</div>
                                                         <div class="flex-grow w-full text-sm break-words">
-                                                            {{ $question['opsi_' . strtolower($option)] }}</div>
+                                                            {{ $question->{'opsi_' . strtolower($option)} }}</div>
                                                     </label>
                                                 </div>
                                             @endforeach
@@ -68,11 +64,10 @@
                             <div class="flex justify-between mt-6 space-x-2">
                                 <button type="button" id="previous-btn"
                                     class="px-4 py-2 text-white bg-green-500 rounded shadow-sm hover:bg-green-700"
-                                    onclick="navigateQuestion('previous')"
-                                    {{ $questionNumber == 1 ? 'disabled' : '' }}>Sebelumnya</button>
+                                    onclick="navigateQuestion('previous')">Sebelumnya</button>
                                 <button type="button" id="next-btn"
                                     class="px-4 py-2 text-white bg-green-600 rounded shadow-sm hover:bg-green-800"
-                                    onclick="navigateQuestion('next')">{{ $questionNumber == $totalQuestions ? 'Selesai' : 'Selanjutnya' }}</button>
+                                    onclick="navigateQuestion('next')">Selanjutnya</button>
                             </div>
                         </form>
                     </div>
@@ -121,18 +116,11 @@
     </div>
 
     <script>
-        let questionNumber = parseInt(sessionStorage.getItem('questionNumber') || '{{ $questionNumber }}');
+        let questionNumber = 1;
         const totalQuestions = {{ $totalQuestions }};
-        let answers = JSON.parse(sessionStorage.getItem('answers') || '[]');
+        let answers = [];
 
         document.addEventListener('DOMContentLoaded', function() {
-            if (!sessionStorage.getItem('questionNumber') || sessionStorage.getItem('questionNumber') < 1) {
-                questionNumber = 1;
-                sessionStorage.setItem('questionNumber', questionNumber);
-            } else {
-                questionNumber = parseInt(sessionStorage.getItem('questionNumber'));
-            }
-
             if (totalQuestions > 0) {
                 displayQuestion(questionNumber - 1);
                 generateQuestionNumbers();
@@ -189,8 +177,7 @@
 
         function selectOption(option) {
             answers[questionNumber - 1] = option;
-            sessionStorage.setItem('answers', JSON.stringify(answers));
-            console.log(sessionStorage.getItem('answers'));
+            console.log(answers);
             displayQuestion(questionNumber - 1);
             generateQuestionNumbers();
         }
@@ -198,15 +185,12 @@
         function navigateQuestion(direction) {
             saveAnswer();
 
-            questionNumber = parseInt(questionNumber);
-
             if (direction === 'next' && questionNumber < totalQuestions) {
                 questionNumber++;
             } else if (direction === 'previous' && questionNumber > 1) {
                 questionNumber--;
             }
 
-            sessionStorage.setItem('questionNumber', questionNumber);
             displayQuestion(questionNumber - 1);
             generateQuestionNumbers();
             updateButtonStates();
@@ -223,7 +207,6 @@
                 questionNumberElement.addEventListener('click', () => {
                     saveAnswer();
                     questionNumber = i + 1;
-                    sessionStorage.setItem('questionNumber', questionNumber);
                     displayQuestion(questionNumber - 1);
                     generateQuestionNumbers();
                     updateButtonStates();
@@ -260,7 +243,7 @@
         }
 
         function redirectToResults() {
-            window.location.href = "{{ route('kompetensi-umum.hasil') }}";
+            window.location.href = "{{ route('kompetensi-khusus.hasil') }}";
         }
 
         async function submitForm() {
@@ -270,12 +253,12 @@
             const answersInput = document.getElementById('answers');
             answersInput.value = JSON.stringify(answers);
 
-            console.log('Answers being submitted:', answers); // Log untuk memastikan jawaban yang dikirim
+            console.log('Answers being submitted:', answers);
 
             const formData = new FormData(form);
 
             try {
-                const response = await fetch("{{ route('kompetensi-umum.storeJawaban') }}", {
+                const response = await fetch("{{ route('kompetensi-khusus.storeJawaban') }}", {
                     method: 'POST',
                     body: formData,
                     headers: {
@@ -284,7 +267,7 @@
                     }
                 });
 
-                console.log('Response:', response); // Tambahkan log ini untuk debugging
+                console.log('Response:', response);
 
                 if (!response.ok) {
                     const contentType = response.headers.get('content-type');
@@ -302,10 +285,9 @@
                 }
 
                 const data = await response.json();
-                console.log('Data:', data); // Tambahkan log ini untuk debugging
+                console.log('Data:', data);
 
                 if (data.success) {
-                    // Tampilkan data hasil kompetensi di konsol
                     console.log('Hasil Kompetensi:', data.data);
 
                     window.location.href = data.redirect_url;
@@ -315,7 +297,7 @@
                     hideModal();
                 }
             } catch (error) {
-                console.error('Fetch error:', error); // Tambahkan log ini untuk debugging
+                console.error('Fetch error:', error);
                 alert('Fetch error: ' + error.message);
                 hideModal();
             }
@@ -328,8 +310,7 @@
             } else {
                 answers[questionNumber - 1] = null;
             }
-            sessionStorage.setItem('answers', JSON.stringify(answers));
-            console.log(sessionStorage.getItem('answers'));
+            console.log(answers);
         }
 
         function updateButtonStates() {

@@ -6,14 +6,19 @@
         @csrf
 
         <div class="px-8 py-6">
-            <div class="flex justify-center p-5 max-md:px-5">
+            <div class="flex justify-center p-2 max-md:px-5">
                 <!-- Logo 1 -->
-                <div class="mr-8">
+                <div class="mr-6">
                     <img src="{{ asset('images/Logo_UIN.png') }}" alt="Logo UIN" class="h-20 w-30">
                 </div>
 
                 <!-- Logo 2 -->
-                <div class="ml-8">
+                <div>
+                    <img src="{{ asset('images/Logo_K3.png') }}" alt="Logo K3" class="w-20 h-20">
+                </div>
+
+                <!-- Logo 3 -->
+                <div class="ml-6">
                     <img src="{{ asset('images/Logo_FST.png') }}" alt="Logo FST" class="w-20 h-20">
                 </div>
             </div>

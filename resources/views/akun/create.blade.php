@@ -2,8 +2,23 @@
     <div class="px-8 py-6">
         @if (session('success'))
             <script>
-                alert('{{ session('success') }}');
+                document.addEventListener('DOMContentLoaded', function() {
+                    const successMessage = document.getElementById('successMessage');
+                    if (successMessage) {
+                        successMessage.classList.remove('hidden');
+                    }
+                });
             </script>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
 
         <div class="flex justify-between py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -55,6 +70,9 @@
                         <input id="name" type="text" name="name" value="{{ old('name') }}" required
                             autocomplete="name"
                             class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
+                        @error('name')
+                            <div class="mt-1 text-xs text-red-500">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="flex items-center my-4 space-x-4">
                         <label for="email" class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
@@ -64,6 +82,9 @@
                         <input id="email" type="email" name="email" value="{{ old('email') }}" required
                             autocomplete="email"
                             class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
+                        @error('email')
+                            <div class="mt-1 text-xs text-red-500">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="relative flex items-center my-4 space-x-4">
                         <label for="password" class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
@@ -91,6 +112,9 @@
                                     d="M6.75 12c0-.619.107-1.213.304-1.764l-3.1-3.1a11.25 11.25 0 0 0-2.63 4.31c-.12.362-.12.752 0 1.114 1.489 4.467 5.704 7.69 10.675 7.69 1.5 0 2.933-.294 4.242-.827l-2.477-2.477A5.25 5.25 0 0 1 6.75 12Z" />
                             </svg>
                         </button>
+                        @error('password')
+                            <div class="mt-1 text-xs text-red-500">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="flex items-center my-4 space-x-4">
                         <label for="nomor" class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
@@ -100,6 +124,9 @@
                         <input id="nomor" type="text" name="nomor" value="{{ old('nomor') }}" required
                             autocomplete="tel"
                             class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
+                        @error('nomor')
+                            <div class="mt-1 text-xs text-red-500">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="flex items-center my-4 space-x-4">
                         <label for="program_studi"
@@ -113,6 +140,9 @@
                                 <option value="{{ $prodi->id }}">{{ $prodi->nama }}</option>
                             @endforeach
                         </select>
+                        @error('program_studi')
+                            <div class="mt-1 text-xs text-red-500">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="flex items-center my-4 space-x-4">
                         <label for="fakultas" class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
@@ -125,6 +155,9 @@
                                 <option value="{{ $fakultas->id }}">{{ $fakultas->nama }}</option>
                             @endforeach
                         </select>
+                        @error('fakultas')
+                            <div class="mt-1 text-xs text-red-500">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="flex items-center my-4 space-x-4">
                         <label for="instansi" class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
@@ -137,46 +170,9 @@
                                 <option value="{{ $instansi->id }}">{{ $instansi->name }}</option>
                             @endforeach
                         </select>
-                    </div>
-                    <hr class="h-px m-1 bg-gray-100 border-0 dark:bg-gray-200">
-                    <div class="flex items-center justify-between p-2">
-                        <div class="text-sm font-semibold text-gray-900">
-                            {{ __('Pilih Kategori Ujian') }}
-                        </div>
-                    </div>
-                    <div class="flex items-center my-4 space-x-4">
-                        <label for="kategori_ujian_wajib"
-                            class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
-                            <span>Kategori Ujian Wajib<span class="pl-1 text-red-500">*</span></span>
-                            <span>:</span>
-                        </label>
-                        <input id="kategori_ujian_wajib" type="text" name="kategori_ujian_wajib"
-                            value="Kompetensi Umum" required disabled
-                            class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
-                    </div>
-                    <div id="kategoriUjianPilihanContainer">
-                        <div class="flex items-center my-4 space-x-4 kategori-ujian-pilihan-item">
-                            <label for="kategori_ujian_pilihan_1"
-                                class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
-                                <span>Kategori Ujian Pilihan<span class="pl-1 text-red-500">*</span></span>
-                                <span>:</span>
-                            </label>
-                            <select id="kategori_ujian_pilihan_1" name="kategori_ujian_pilihan[]" required
-                                class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
-                                <option>Khusus Lab Agribisnis</option>
-                                <option>Khusus Lab Biologi</option>
-                                <option>Khusus Lab FITISIMAT</option>
-                                <option>Khusus Lab Kimia</option>
-                                <option>Khusus Lab Pengujian</option>
-                                <option>Khusus Lab Pertambangan</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="flex justify-start mb-4">
-                        <button type="button" id="tambahKategoriButton"
-                            class="inline-flex items-center justify-center px-4 py-2 space-x-2 text-white bg-green-700 rounded-md font-base hover:bg-green-900">
-                            <span class="items-center">Tambah Kategori</span>
-                        </button>
+                        @error('instansi')
+                            <div class="mt-1 text-xs text-red-500">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="flex items-center space-x-2">
                         <span class="text-red-500">*</span>
@@ -196,32 +192,94 @@
             </div>
         </div>
     </div>
-    <script>
-        document.getElementById('tambahKategoriButton').addEventListener('click', function() {
-            const container = document.getElementById('kategoriUjianPilihanContainer');
-            const items = container.getElementsByClassName('kategori-ujian-pilihan-item');
-            if (items.length < 6) {
-                const newItem = items[0].cloneNode(true);
-                const newId = 'kategori_ujian_pilihan_' + (items.length + 1);
-                newItem.querySelector('label').setAttribute('for', newId);
-                newItem.querySelector('select').setAttribute('id', newId);
-                newItem.querySelector('select').value = ''; // Reset the value
-                container.appendChild(newItem);
-            }
-        });
 
-        document.getElementById('toggle-password').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
-            const eyeOpenIcon = document.getElementById('eye-open');
-            const eyeClosedIcon = document.getElementById('eye-closed');
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeOpenIcon.classList.remove('hidden');
-                eyeClosedIcon.classList.add('hidden');
-            } else {
-                passwordInput.type = 'password';
-                eyeOpenIcon.classList.add('hidden');
-                eyeClosedIcon.classList.remove('hidden');
+    <!-- Modal Success Message -->
+    <div id="successMessage" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+
+            <!-- Modal Content -->
+            <div
+                class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="px-4 pt-5 pb-4 bg-white sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto bg-green-100 rounded-full sm:mx-0 sm:h-10 sm:w-10">
+                            <!-- Heroicon name: outline/check -->
+                            <svg class="w-6 h-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg font-medium text-gray-900" id="modal-title">
+                                Sukses!
+                            </h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500" id="modal-description">
+                                    Akun Peserta Berhasil Disimpan.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button"
+                        class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-green-600 border border-transparent rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
+                        onclick="redirectToIndex()">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function closeModal() {
+            const successMessage = document.getElementById('successMessage');
+            if (successMessage) {
+                successMessage.classList.add('hidden');
+            }
+
+            const validationPopup = document.getElementById('validationPopup');
+            if (validationPopup) {
+                validationPopup.classList.add('hidden');
+            }
+        }
+
+        function redirectToIndex() {
+            window.location.href = "{{ route('akun-peserta.index') }}";
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('toggle-password').addEventListener('click', function() {
+                const passwordInput = document.getElementById('password');
+                const eyeOpenIcon = document.getElementById('eye-open');
+                const eyeClosedIcon = document.getElementById('eye-closed');
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    eyeOpenIcon.classList.remove('hidden');
+                    eyeClosedIcon.classList.add('hidden');
+                } else {
+                    passwordInput.type = 'password';
+                    eyeOpenIcon.classList.add('hidden');
+                    eyeClosedIcon.classList.remove('hidden');
+                }
+            });
+
+            @if (session('success'))
+                document.getElementById('successMessage').classList.remove('hidden');
+                {{ session()->forget('success') }} // Clear the session variable
+            @endif
+
+            if (document.getElementById('validationPopup')) {
+                const validationMessage = document.getElementById('validationMessage');
+                validationMessage.innerHTML = `{{ implode('<br>', $errors->all()) }}`;
+                document.getElementById('validationPopup').classList.remove('hidden');
             }
         });
     </script>

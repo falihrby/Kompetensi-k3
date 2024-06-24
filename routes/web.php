@@ -1,14 +1,17 @@
 <?php
 
+// File: routes/web.php
+
 use App\Http\Controllers\AkunPesertaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\InstansiController;
+use App\Http\Controllers\KompetensiKhususController;
 use App\Http\Controllers\KompetensiUmumController;
 use App\Http\Controllers\LabController;
 use App\Http\Controllers\LaporanController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramStudiController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\SoalKompetensiController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,22 +26,32 @@ require __DIR__ . '/auth.php';
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
     // Profile Routes
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    // Lab Routes
-    Route::get('/lab/{labName}', [LabController::class, 'show'])->name('lab.details');
+    // Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // General Competency Participant Routes
     Route::prefix('kompetensi-umum')->group(function () {
         Route::get('/hasil', [KompetensiUmumController::class, 'hasilKompetensi'])->name('kompetensi-umum.hasil');
         Route::get('/', [KompetensiUmumController::class, 'index'])->name('kompetensi-umum.index');
-        Route::get('/{questionNumber?}', [KompetensiUmumController::class, 'index'])->name('kompetensi-umum.question');
+        Route::get('/question/{questionNumber?}', [KompetensiUmumController::class, 'index'])->name('kompetensi-umum.question');
         Route::get('/questions/{kategori}', [KompetensiUmumController::class, 'fetchQuestions'])->name('kompetensi-umum.fetchQuestions');
         Route::post('/store-jawaban', [KompetensiUmumController::class, 'storeJawaban'])->name('kompetensi-umum.storeJawaban');
         Route::post('/reset-jawaban', [KompetensiUmumController::class, 'resetJawaban'])->name('kompetensi-umum.resetJawaban');
         Route::post('/retry-kompetensi', [KompetensiUmumController::class, 'retryKompetensi'])->name('retry-kompetensi');
+    });
+
+    // Route to show the lab selection page
+    Route::get('/pilih-lab', [LabController::class, 'show'])->name('pilih-lab');
+    Route::get('/Dashboard/{labName?}', [LabController::class, 'index'])->name('khusus-dashboard.index');
+    Route::get('/hasil-akhir', [ResultController::class, 'show'])->name('hasil-akhir');
+
+    // Specific Competency Participant Routes
+    Route::prefix('kompetensi-khusus')->group(function () {
+        Route::get('/kompetensi-khusus/{labName}', [KompetensiKhususController::class, 'index'])->name('kompetensi-khusus.index');
+        Route::post('/store-jawaban', [KompetensiKhususController::class, 'storeJawaban'])->name('kompetensi-khusus.storeJawaban');
+        Route::get('/hasil', [KompetensiKhususController::class, 'hasilKompetensi'])->name('kompetensi-khusus.hasil');
+        Route::post('/retry-kompetensikhusus', [KompetensiKhususController::class, 'retryKompetensiKhusus'])->name('retry-kompetensikhusus');
     });
 
     // Participant Routes
