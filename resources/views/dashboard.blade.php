@@ -68,45 +68,19 @@
                         style="max-height: 400px; overflow-y: auto;">
                         <div class="text-sm text-gray-900">
                             <div class="space-y-4">
-                                <p>Last Revised: December 16, 2013</p>
-                                <p>Welcome to www.lorem-ipsum.info. This site is provided as a service to our visitors
-                                    and may be used for informational purposes only. Because the Terms and Conditions
-                                    contain legal obligations, please read them carefully.</p>
-                                <p>1. YOUR AGREEMENT</p>
-                                <p>By using this Site, you agree to be bound by, and to comply with, these Terms and
-                                    Conditions. If you do not agree to these Terms and Conditions, please do not use
-                                    this site.</p>
-                                <p>PLEASE NOTE: We reserve the right, at our sole discretion, to change, modify or
-                                    otherwise alter these Terms and Conditions at any time. Unless otherwise indicated,
-                                    amendments will become effective immediately. Please review these Terms and
-                                    Conditions periodically. Your continued use of the Site following the posting of
-                                    changes and/or modifications will constitute your acceptance of the revised Terms
-                                    and Conditions and the reasonableness of these standards for notice of changes. For
-                                    your information, this page was last updated as of the date at the top of these
-                                    terms and conditions.</p>
-                                <p>2. PRIVACY</p>
-                                <p>Please review our Privacy Policy, which also governs your visit to this Site, to
-                                    understand our practices.</p>
-                                <p>3. LINKED SITES</p>
-                                <p>This Site may contain links to other independent third-party Web sites ("Linked
-                                    Sites”). These Linked Sites are provided solely as a convenience to our visitors.
-                                    Such Linked Sites are not under our control, and we are not responsible for and does
-                                    not endorse the content of such Linked Sites, including any information or materials
-                                    contained on such Linked Sites. You will need to make your own independent judgment
-                                    regarding your interaction with these Linked Sites.</p>
-                                <p>4. FORWARD LOOKING STATEMENTS</p>
-                                <p>All materials reproduced on this site speak as of the original date of publication or
-                                    filing. The fact that a document is available on this site does not mean that the
-                                    information contained in such document has not been modified or superseded by events
-                                    or by a subsequent document or filing. We have no duty or policy to update any
-                                    information or statements contained on this site and, therefore, such information or
-                                    statements should not be relied upon as being current as of the date you access this
-                                    site.</p>
-                                <p>5. DISCLAIMER OF WARRANTIES AND LIMITATION OF LIABILITY</p>
-                                <p>All materials reproduced on this site speak as of the original date of publication or
-                                    filing. The fact that a document is available on this site does not mean that the
-                                    information contained in such document has not been modified or superseded by events
-                                    or by a subsequent document or filing.</p>
+                                <li>Ujian sertifikasi K3 Laboratorium dilakukan di rumah masing-masing. Pastikan koneksi
+                                    internet Anda stabil selama ujian berlangsung.</li>
+                                <li>Soal ujian terdiri dari 10 soal kompetensi umum yang harus
+                                    diselesaikan dalam waktu yang telah ditentukan.</li>
+                                <li>Selama ujian berlangsung, mahasiswa tidak diperkenankan membuka laman selain
+                                    aplikasi ujian untuk menjaga integritas ujian.</li>
+                                <li>Mahasiswa/i harus bekerja secara mandiri dan tidak diperkenankan bertanya kepada
+                                    mahasiswa lain atau meminta bantuan dari pihak luar.</li>
+                                <li>Mahasiswa/i tidak diperkenankan diwakilkan saat melaksanakan ujian. Identitas
+                                    peserta akan diverifikasi sebelum ujian dimulai.</li>
+                                <li>Mahasiswa/i dapat mengunduh sertifikat jika telah lulus dengan nilai sempurna pada
+                                    ujian umum dan ujian khusus. Sertifikat dapat diunduh melalui laman resmi setelah
+                                    verifikasi hasil ujian selesai.</li>
                             </div>
                         </div>
                     </div>

@@ -3,6 +3,7 @@
 
     <input type="hidden" id="kategori" value="{{ $labName }}">
     <input type="hidden" id="start_time" value="{{ now() }}">
+    <input type="hidden" id="totalQuestions" value="{{ $totalQuestions }}">
 
     <div class="p-6">
         <div class="py-2 mx-auto max-w-7xl sm:px-6 lg:px-8">

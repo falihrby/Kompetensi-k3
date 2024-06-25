@@ -37,14 +37,25 @@
                         <span>:</span>
                     </label>
                     <div class="w-2/3 p-2 text-sm border border-gray-300 rounded-lg bg-gray-50">
-                        {{ $akunPeserta->user_id }}</div>
+                        {{ str_pad($akunPeserta->id, 4, '0', STR_PAD_LEFT) }}
+                    </div>
                 </div>
                 <div class="flex items-center my-4 space-x-4">
                     <label class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
                         <span>Nama</span>
                         <span>:</span>
                     </label>
-                    <div class="w-2/3 p-2 text-sm border border-gray-300 rounded-lg bg-gray-50">{{ $akunPeserta->nama }}
+                    <div class="w-2/3 p-2 text-sm border border-gray-300 rounded-lg bg-gray-50">
+                        {{ $akunPeserta->name }}
+                    </div>
+                </div>
+                <div class="flex items-center my-4 space-x-4">
+                    <label class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
+                        <span>Email</span>
+                        <span>:</span>
+                    </label>
+                    <div class="w-2/3 p-2 text-sm border border-gray-300 rounded-lg bg-gray-50">
+                        {{ $akunPeserta->email }}
                     </div>
                 </div>
                 <div class="flex items-center my-4 space-x-4">
@@ -53,7 +64,8 @@
                         <span>:</span>
                     </label>
                     <div class="w-2/3 p-2 text-sm border border-gray-300 rounded-lg bg-gray-50">
-                        {{ $akunPeserta->nomor }}</div>
+                        {{ $akunPeserta->nomor }}
+                    </div>
                 </div>
                 <div class="flex items-center my-4 space-x-4">
                     <label class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
@@ -61,7 +73,8 @@
                         <span>:</span>
                     </label>
                     <div class="w-2/3 p-2 text-sm border border-gray-300 rounded-lg bg-gray-50">
-                        {{ $akunPeserta->program_studi }}</div>
+                        {{ $akunPeserta->program_studi }}
+                    </div>
                 </div>
                 <div class="flex items-center my-4 space-x-4">
                     <label class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
@@ -69,7 +82,8 @@
                         <span>:</span>
                     </label>
                     <div class="w-2/3 p-2 text-sm border border-gray-300 rounded-lg bg-gray-50">
-                        {{ $akunPeserta->fakultas }}</div>
+                        {{ $akunPeserta->fakultas }}
+                    </div>
                 </div>
                 <div class="flex items-center my-4 space-x-4">
                     <label class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
@@ -77,23 +91,8 @@
                         <span>:</span>
                     </label>
                     <div class="w-2/3 p-2 text-sm border border-gray-300 rounded-lg bg-gray-50">
-                        {{ $akunPeserta->instansi }}</div>
-                </div>
-                <div class="flex items-center my-4 space-x-4">
-                    <label class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
-                        <span>Email</span>
-                        <span>:</span>
-                    </label>
-                    <div class="w-2/3 p-2 text-sm border border-gray-300 rounded-lg bg-gray-50">
-                        {{ $akunPeserta->email }}</div>
-                </div>
-                <div class="flex items-center my-4 space-x-4">
-                    <label class="flex justify-between w-1/3 text-sm font-medium text-gray-700 text-wrap">
-                        <span>Password</span>
-                        <span>:</span>
-                    </label>
-                    <div class="w-2/3 p-2 text-sm border border-gray-300 rounded-lg bg-gray-50">
-                        {{ $akunPeserta->password }}</div>
+                        {{ $akunPeserta->instansi }}
+                    </div>
                 </div>
                 <div class="flex items-center justify-between mt-4">
                     <a href="{{ route('akun-peserta.index') }}"

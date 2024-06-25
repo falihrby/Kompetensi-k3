@@ -16,9 +16,7 @@ class AkunPesertaController extends Controller
 {
     public function index(Request $request): View
     {
-        $akunPeserta = User::where('usertype', 'user')
-            ->with(['program_studi', 'fakultas', 'instansi'])
-            ->paginate(15);
+        $akunPeserta = User::where('usertype', 'user')->paginate(15);
         return view('akun.akun-peserta', ['akunPeserta' => $akunPeserta]);
     }
 
@@ -34,22 +32,18 @@ class AkunPesertaController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the request data
         $validatedData = $this->validateRequest($request);
 
         DB::beginTransaction();
         try {
-            // Create the user
             $user = $this->createUser($validatedData);
 
             DB::commit();
 
-            // Log successful creation
             Log::info('User created successfully', ['user_id' => $user->id]);
 
             return redirect()->route('akun-peserta.index')->with('success', 'Akun Peserta berhasil ditambahkan.');
         } catch (\Exception $e) {
-            // Rollback transaction on error
             DB::rollBack();
             Log::error('Error creating user', [
                 'error' => $e->getMessage(),
@@ -57,22 +51,24 @@ class AkunPesertaController extends Controller
                 'validated_data' => $validatedData,
             ]);
 
-            // Return to previous page with errors
-            return back()->withErrors(['message' => 'There was an error creating the user.'])->withInput();
+            return back()->withErrors(['message' => 'There was an error creating the user: ' . $e->getMessage()])->withInput();
         }
     }
 
     private function validateRequest(Request $request): array
     {
-        return $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
             'nomor' => 'required|string|max:255',
-            'program_studi' => 'required|exists:program_studis,id',
-            'fakultas' => 'required|exists:fakultas,id',
-            'instansi' => 'required|exists:instansi,id',
+            'program_studi' => 'required|exists:program_studis,nama',
+            'fakultas' => 'required|exists:fakultas,nama',
+            'instansi' => 'required|exists:instansi,name',
         ]);
+
+        Log::info('Validation passed', $validated);
+        return $validated;
     }
 
     private function createUser(array $validatedData): User
@@ -82,9 +78,9 @@ class AkunPesertaController extends Controller
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
             'nomor' => $validatedData['nomor'],
-            'program_studi_id' => $validatedData['program_studi'],
-            'fakultas_id' => $validatedData['fakultas'],
-            'instansi_id' => $validatedData['instansi'],
+            'program_studi' => $validatedData['program_studi'],
+            'fakultas' => $validatedData['fakultas'],
+            'instansi' => $validatedData['instansi'],
             'usertype' => 'user',
         ]);
 
@@ -95,13 +91,13 @@ class AkunPesertaController extends Controller
 
     public function show($id): View
     {
-        $akunPeserta = User::with(['program_studi', 'fakultas', 'instansi'])->findOrFail($id);
+        $akunPeserta = User::findOrFail($id);
         return view('akun.show', compact('akunPeserta'));
     }
 
     public function edit($id): View
     {
-        $akunPeserta = User::with(['program_studi', 'fakultas', 'instansi'])->findOrFail($id);
+        $akunPeserta = User::findOrFail($id);
         $programStudis = ProgramStudi::all();
         $fakultases = Fakultas::all();
         $instansis = Instansi::all();
@@ -137,15 +133,18 @@ class AkunPesertaController extends Controller
 
     private function validateUpdateRequest(Request $request, $id): array
     {
-        return $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8',
             'nomor' => 'required|string|max:255',
-            'program_studi' => 'required|string|max:255',
-            'fakultas' => 'required|string|max:255',
-            'instansi' => 'required|string|max:255',
+            'program_studi' => 'required|exists:program_studis,nama',
+            'fakultas' => 'required|exists:fakultas,nama',
+            'instansi' => 'required|exists:instansi,name',
         ]);
+
+        Log::info('Validation passed', $validated);
+        return $validated;
     }
 
     private function updateUser(User $user, array $validatedData)

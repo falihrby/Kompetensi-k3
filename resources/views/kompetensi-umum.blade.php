@@ -1,3 +1,5 @@
+<!-- File: resources/views/kompetensi-umum.blade.php -->
+
 <x-app-layout>
     @include('layouts.navigation')
 

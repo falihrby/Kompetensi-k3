@@ -15,7 +15,7 @@ class KompetensiUmumController extends Controller
     public function index($questionNumber = 1)
     {
         $kategori = request()->query('kategori', 'umum');
-        $questions = SoalKompetensi::where('kategori', $kategori)->get();
+        $questions = SoalKompetensi::where('kategori', $kategori)->take(10)->get();
         $totalQuestions = $questions->count();
 
         if ($questionNumber < 1 || $questionNumber > $totalQuestions) {
@@ -65,9 +65,8 @@ class KompetensiUmumController extends Controller
                     'index' => $key,
                     'answer' => strval($answer),
                     'correct' => strval($question->kunci_jawaban),
-                    'res' => strval($answer) === strval($question->kunci_jawaban)
+                    'res' => strval($answer) === strval($question->kunci_jawaban),
                 ];
-
 
                 // Ensure both values are strings for comparison
                 if (strval($answer) === strval($question->kunci_jawaban)) {
@@ -96,7 +95,7 @@ class KompetensiUmumController extends Controller
                 'jumlah_soal_benar' => $correctAnswers,
                 'jumlah_soal_salah' => $incorrectAnswers,
                 'total_questions' => $totalQuestions,
-                'user_id' => Auth::id()
+                'user_id' => Auth::id(),
             ]);
 
             DB::commit();

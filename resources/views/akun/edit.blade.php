@@ -40,52 +40,16 @@
                             <span>:</span>
                         </label>
                         <input id="user_id" type="text" name="user_id"
-                            value="{{ old('user_id', $akunPeserta->user_id) }}" required
+                            value="{{ old('user_id', str_pad($akunPeserta->id, 4, '0', STR_PAD_LEFT)) }}" readonly
                             class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
                     </div>
                     <div class="flex items-center my-4 space-x-4">
-                        <label for="nama" class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
+                        <label for="name" class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
                             <span>Nama</span>
                             <span>:</span>
                         </label>
-                        <input id="nama" type="text" name="nama"
-                            value="{{ old('nama', $akunPeserta->nama) }}" required
-                            class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
-                    </div>
-                    <div class="flex items-center my-4 space-x-4">
-                        <label for="nomor" class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
-                            <span>Nomor</span>
-                            <span>:</span>
-                        </label>
-                        <input id="nomor" type="text" name="nomor"
-                            value="{{ old('nomor', $akunPeserta->nomor) }}" required
-                            class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
-                    </div>
-                    <div class="flex items-center my-4 space-x-4">
-                        <label for="program_studi" class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
-                            <span>Program Studi</span>
-                            <span>:</span>
-                        </label>
-                        <input id="program_studi" type="text" name="program_studi"
-                            value="{{ old('program_studi', $akunPeserta->program_studi) }}" required
-                            class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
-                    </div>
-                    <div class="flex items-center my-4 space-x-4">
-                        <label for="fakultas" class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
-                            <span>Fakultas</span>
-                            <span>:</span>
-                        </label>
-                        <input id="fakultas" type="text" name="fakultas"
-                            value="{{ old('fakultas', $akunPeserta->fakultas) }}" required
-                            class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
-                    </div>
-                    <div class="flex items-center my-4 space-x-4">
-                        <label for="instansi" class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
-                            <span>Instansi</span>
-                            <span>:</span>
-                        </label>
-                        <input id="instansi" type="text" name="instansi"
-                            value="{{ old('instansi', $akunPeserta->instansi) }}" required
+                        <input id="name" type="text" name="name"
+                            value="{{ old('name', $akunPeserta->name) }}" required
                             class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
                     </div>
                     <div class="flex items-center my-4 space-x-4">
@@ -102,9 +66,66 @@
                             <span>Password</span>
                             <span>:</span>
                         </label>
-                        <input id="password" type="text" name="password"
-                            value="{{ old('password', $akunPeserta->password) }}" required
+                        <input id="password" type="password" name="password"
                             class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
+                        <small class="text-xs text-gray-500">Kosongkan jika tidak ingin mengubah password</small>
+                    </div>
+                    <div class="flex items-center my-4 space-x-4">
+                        <label for="nomor" class="flex justify-between w-1/3 text-sm font-medium text-gray-700">
+                            <span>Nomor</span>
+                            <span>:</span>
+                        </label>
+                        <input id="nomor" type="text" name="nomor"
+                            value="{{ old('nomor', $akunPeserta->nomor) }}" required
+                            class="w-2/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2.5">
+                    </div>
+                    <div class="mb-4">
+                        <label for="program_studi" class="block text-sm font-medium text-gray-700">Program Studi</label>
+                        <select name="program_studi" id="program_studi"
+                            class="block w-full mt-1 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-500 focus:border-green-500"
+                            required>
+                            @foreach ($programStudis as $prodi)
+                                <option value="{{ $prodi->nama }}"
+                                    {{ old('program_studi', $akunPeserta->program_studi) == $prodi->nama ? 'selected' : '' }}>
+                                    {{ $prodi->nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('program_studi')
+                            <div class="mt-1 text-red-500">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-4">
+                        <label for="fakultas" class="block text-sm font-medium text-gray-700">Fakultas</label>
+                        <select name="fakultas" id="fakultas"
+                            class="block w-full mt-1 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-500 focus:border-green-500"
+                            required>
+                            @foreach ($fakultases as $fakultas)
+                                <option value="{{ $fakultas->nama }}"
+                                    {{ old('fakultas', $akunPeserta->fakultas) == $fakultas->nama ? 'selected' : '' }}>
+                                    {{ $fakultas->nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('fakultas')
+                            <div class="mt-1 text-red-500">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-4">
+                        <label for="instansi" class="block text-sm font-medium text-gray-700">Instansi</label>
+                        <select name="instansi" id="instansi"
+                            class="block w-full mt-1 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-500 focus:border-green-500"
+                            required>
+                            @foreach ($instansis as $instansi)
+                                <option value="{{ $instansi->name }}"
+                                    {{ old('instansi', $akunPeserta->instansi) == $instansi->name ? 'selected' : '' }}>
+                                    {{ $instansi->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('instansi')
+                            <div class="mt-1 text-red-500">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="flex items-center justify-between mt-4">
                         <a href="{{ route('akun-peserta.index') }}"

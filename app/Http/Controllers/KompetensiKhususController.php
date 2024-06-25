@@ -22,7 +22,7 @@ class KompetensiKhususController extends Controller
 
         Log::info('Updated labName:', ['labName' => $labName]);
 
-        $questions = SoalKompetensi::where('kategori', $labName)->get();
+        $questions = SoalKompetensi::where('kategori', $labName)->take(10)->get();
         $totalQuestions = $questions->count();
 
         Log::info('Number of questions fetched:', ['totalQuestions' => $totalQuestions, 'questions' => $questions]);
