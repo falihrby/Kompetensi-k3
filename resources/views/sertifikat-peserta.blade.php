@@ -35,7 +35,7 @@
         .overlay-text {
             position: absolute;
             top: 55%;
-            left: 34%;
+            left: 38%;
             transform: translate(-50%, -50%);
             font-size: 48px;
             font-weight: bold;

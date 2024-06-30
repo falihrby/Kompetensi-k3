@@ -1,5 +1,3 @@
-<!-- File: resources/views/kompetensi-umum.blade.php -->
-
 <x-app-layout>
     @include('layouts.navigation')
 
@@ -99,17 +97,34 @@
         class="fixed inset-0 z-50 items-center justify-center hidden bg-gray-800 bg-opacity-75">
         <div class="flex flex-col justify-center items-center px-5 py-6 bg-white rounded-2xl shadow-sm max-w-[342px]">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="size-6">
+                stroke="green" class="size-12">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
             </svg>
-            <h3 class="mt-2 text-xl font-bold text-center text-slate-800">Apakah kamu yakin ingin menyelesaikan ujian?
+            <h3 class="mt-2 text-lg font-bold text-center text-slate-800">Apakah kamu yakin ingin menyelesaikan ujian?
             </h3>
             <div class="flex justify-center gap-2 mt-4">
                 <button id="cancel-btn" class="px-4 py-2 text-sm text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
                     onclick="hideModal()">Batal</button>
                 <button id="confirm-btn" class="px-4 py-2 text-sm text-white bg-green-600 rounded-md hover:bg-green-800"
                     onclick="submitForm()">Yakin</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="warning-modal"
+        class="fixed inset-0 z-50 items-center justify-center hidden bg-gray-800 bg-opacity-75">
+        <div class="flex flex-col justify-center items-center px-5 py-6 bg-white rounded-2xl shadow-sm max-w-[342px]">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="green" class="size-12">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+            </svg>
+            <h3 class="mt-2 text-lg font-bold text-center text-slate-800">Harap menjawab semua pertanyaan sebelum menyelesaikan ujian.
+            </h3>
+            <div class="flex justify-center gap-2 mt-4">
+                <button id="warning-cancel-btn" class="px-4 py-2 text-sm text-white bg-green-600 rounded-md hover:bg-green-800"
+                    onclick="hideWarningModal()">OK</button>
             </div>
         </div>
     </div>
@@ -123,18 +138,11 @@
     </div>
 
     <script>
-        let questionNumber = parseInt(sessionStorage.getItem('questionNumber') || '{{ $questionNumber }}');
+        let questionNumber = 1;
         const totalQuestions = {{ $totalQuestions }};
-        let answers = JSON.parse(sessionStorage.getItem('answers') || '[]');
+        let answers = @json($savedAnswers ?? []);
 
         document.addEventListener('DOMContentLoaded', function() {
-            if (!sessionStorage.getItem('questionNumber') || sessionStorage.getItem('questionNumber') < 1) {
-                questionNumber = 1;
-                sessionStorage.setItem('questionNumber', questionNumber);
-            } else {
-                questionNumber = parseInt(sessionStorage.getItem('questionNumber'));
-            }
-
             if (totalQuestions > 0) {
                 displayQuestion(questionNumber - 1);
                 generateQuestionNumbers();
@@ -244,6 +252,10 @@
         }
 
         function showModal() {
+            if (answers.length < totalQuestions || answers.includes(null) || answers.includes(undefined)) {
+                showWarningModal();
+                return;
+            }
             const modal = document.getElementById('confirmation-modal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -253,6 +265,18 @@
             const modal = document.getElementById('confirmation-modal');
             modal.classList.remove('flex');
             modal.classList.add('hidden');
+        }
+
+        function showWarningModal() {
+            const warningModal = document.getElementById('warning-modal');
+            warningModal.classList.remove('hidden');
+            warningModal.classList.add('flex');
+        }
+
+        function hideWarningModal() {
+            const warningModal = document.getElementById('warning-modal');
+            warningModal.classList.remove('flex');
+            warningModal.classList.add('hidden');
         }
 
         function showSuccessMessage() {

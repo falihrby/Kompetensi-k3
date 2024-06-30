@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\KompetensiResultCreated;
 use App\Models\KompetensiResult;
-use App\Models\Peserta;
 use App\Models\SoalKompetensi;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,14 +16,30 @@ class KompetensiUmumController extends Controller
     public function index($questionNumber = 1)
     {
         $kategori = request()->query('kategori', 'umum');
-        $questions = SoalKompetensi::where('kategori', $kategori)->take(10)->get();
+
+        // Clear previous answers from session if this is a new attempt
+        if (!session()->has('question_order')) {
+            $questions = SoalKompetensi::where('kategori', $kategori)
+                ->inRandomOrder()
+                ->take(10)
+                ->get();
+            session(['question_order' => $questions->pluck('id')->toArray()]);
+        }
+
+        $questionOrder = session('question_order');
+        $questions = SoalKompetensi::whereIn('id', $questionOrder)->get()->keyBy('id');
+        $questions = collect($questionOrder)->map(fn($id) => $questions[$id]);
+
         $totalQuestions = $questions->count();
 
         if ($questionNumber < 1 || $questionNumber > $totalQuestions) {
             $questionNumber = 1;
         }
 
-        session()->put('start_time', now());
+        if (!session()->has('start_time')) {
+            session()->put('start_time', now());
+        }
+
         return view('kompetensi-umum', compact('questions', 'questionNumber', 'totalQuestions', 'kategori'));
     }
 
@@ -31,7 +48,6 @@ class KompetensiUmumController extends Controller
         Log::info('storeJawaban called', ['request' => $request->all()]);
 
         $validatedData = $request->validate([
-            'question_number' => 'required|integer',
             'kategori' => 'required|string',
             'start_time' => 'required|date',
             'answers' => 'required|json',
@@ -42,48 +58,46 @@ class KompetensiUmumController extends Controller
 
         try {
             $answers = json_decode($request->input('answers'), true);
-
             Log::info('Decoded answers', ['answers' => $answers]);
 
-            $kategori = $request->input('kategori');
-            $questions = SoalKompetensi::where('kategori', $kategori)->get();
-            Log::info('Fetched questions', ['questions' => $questions]);
+            $questionOrder = session('question_order');
+            $questions = SoalKompetensi::whereIn('id', $questionOrder)->get()->keyBy('id');
 
             $correctAnswers = 0;
-            foreach ($questions as $key => $question) {
-                // Pastikan jawaban dari pengguna memiliki format yang sama dengan jawaban dari database
+            foreach ($questionOrder as $key => $questionId) {
+                $question = $questions[$questionId];
                 $answer = $answers[$key] ?? null;
-
                 Log::info('Checking answer', ['question_id' => $question->id, 'answer' => $answer, 'kunci_jawaban' => $question->kunci_jawaban]);
 
-                // Normalisasi format jawaban jika perlu
                 if (stripos($question->kunci_jawaban, 'Opsi') !== false && stripos($answer, 'Opsi') === false) {
                     $answer = 'Opsi ' . $answer;
                 }
 
-                $test = [
-                    'index' => $key,
-                    'answer' => strval($answer),
-                    'correct' => strval($question->kunci_jawaban),
-                    'res' => strval($answer) === strval($question->kunci_jawaban),
-                ];
-
-                // Ensure both values are strings for comparison
                 if (strval($answer) === strval($question->kunci_jawaban)) {
                     $correctAnswers += 1;
                     Log::info('Correct answer', ['question_id' => $question->id]);
                 }
             }
 
-            $totalQuestions = $questions->count();
+            $totalQuestions = count($questionOrder);
             $incorrectAnswers = $totalQuestions - $correctAnswers;
             $isPassed = $correctAnswers === $totalQuestions;
 
-            // Get the participant data
-            $peserta = Peserta::where('user_id', Auth::id())->firstOrFail();
+            $peserta = User::where('id', Auth::id())->firstOrFail();
+
+            if (is_null($peserta->name)) {
+                throw new \Exception("User 'name' field is null for user ID: " . Auth::id());
+            }
+
+            $lastExam = KompetensiResult::where('user_id', Auth::id())
+                ->where('kategori_ujian', 'Kompetensi Umum')
+                ->orderBy('ujian_ke_berapa', 'desc')
+                ->first();
+
+            $ujianKeBerapa = $lastExam ? $lastExam->ujian_ke_berapa + 1 : 1;
 
             $kompetensiResult = KompetensiResult::create([
-                'name' => $peserta->nama,
+                'name' => $peserta->name,
                 'nomor' => $peserta->nomor,
                 'program' => $peserta->program_studi,
                 'fakultas' => $peserta->fakultas,
@@ -96,18 +110,22 @@ class KompetensiUmumController extends Controller
                 'jumlah_soal_salah' => $incorrectAnswers,
                 'total_questions' => $totalQuestions,
                 'user_id' => Auth::id(),
+                'ujian_ke_berapa' => $ujianKeBerapa,
             ]);
+
+            // Trigger the event
+            event(new KompetensiResultCreated($kompetensiResult));
 
             DB::commit();
 
             $redirectUrl = route('kompetensi-umum.hasil');
             Log::info('Redirect URL', ['url' => $redirectUrl]);
-            session()->forget(['answers', 'start_time']);
+            session()->forget(['answers', 'start_time', 'question_order']);
             return response()->json([
                 'success' => true,
                 'message' => 'Jawaban berhasil disimpan.',
                 'data' => $kompetensiResult,
-                'redirect_url' => route('kompetensi-umum.hasil'),
+                'redirect_url' => $redirectUrl,
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -121,8 +139,6 @@ class KompetensiUmumController extends Controller
         Log::info('hasilKompetensi called');
 
         $user = Auth::user();
-
-        $peserta = Peserta::where('user_id', $user->id)->firstOrFail();
         $result = KompetensiResult::where('user_id', $user->id)->latest()->firstOrFail();
 
         if (!$result) {
@@ -140,7 +156,6 @@ class KompetensiUmumController extends Controller
         $result = [
             'isPassed' => $isPassed,
             'user' => $user,
-            'peserta' => $peserta,
             'totalQuestions' => $totalQuestions,
             'correctAnswers' => $correctAnswers,
             'incorrectAnswers' => $incorrectAnswers,
@@ -155,7 +170,7 @@ class KompetensiUmumController extends Controller
 
     public function retryKompetensi(Request $request)
     {
-        session()->forget(['answers', 'start_time']);
-        return redirect()->route('kompetensi-umum.index');
+        session()->forget(['question_order', 'answers', 'start_time']);
+        return redirect()->route('dashboard');
     }
 }

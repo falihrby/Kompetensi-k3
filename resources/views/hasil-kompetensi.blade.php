@@ -1,4 +1,6 @@
-// File: resources/views/hasil-kompetensi.blade.php
+@php
+    use Illuminate\Support\Facades\Auth;
+@endphp
 
 <x-app-layout>
     @include('layouts.navigation')
@@ -45,7 +47,7 @@
                                 <span>Nomor</span>
                                 <span>:</span>
                             </label>
-                            <span class="w-2/3 text-base text-black">{{ $result['peserta']['nomor'] }}</span>
+                            <span class="w-2/3 text-base text-black">{{ $result['user']['nomor'] }}</span>
                         </div>
                         <div class="flex items-center my-2 space-x-4">
                             <label class="flex justify-between w-1/3 text-base text-black">

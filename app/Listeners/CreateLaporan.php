@@ -1,11 +1,9 @@
 <?php
 
-// File: app/Listeners/CreateLaporan.php
-
 namespace App\Listeners;
 
 use App\Events\KompetensiResultCreated;
-use App\Models\Laporan;
+use Illuminate\Support\Facades\Log;
 
 class CreateLaporan
 {
@@ -13,7 +11,8 @@ class CreateLaporan
     {
         $kompetensiResult = $event->kompetensiResult;
 
-        Laporan::create([
+        // Log the event data instead of creating a new Laporan entry
+        Log::info('KompetensiResult Created', [
             'name' => $kompetensiResult->name,
             'nomor_ujian' => $kompetensiResult->nomor,
             'program_studi' => $kompetensiResult->program,

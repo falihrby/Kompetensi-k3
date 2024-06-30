@@ -6,20 +6,20 @@
         @csrf
 
         <div class="px-8 py-6">
-            <div class="flex justify-center p-2 max-md:px-5">
+            <div class="flex items-center justify-center py-2 space-x-4">
                 <!-- Logo 1 -->
-                <div class="mr-6">
-                    <img src="{{ asset('images/Logo_UIN.png') }}" alt="Logo UIN" class="h-20 w-30">
+                <div class="flex items-center justify-center h-24">
+                    <img src="{{ asset('images/Logo_UIN.png') }}" alt="Logo UIN" class="object-contain h-full">
                 </div>
 
                 <!-- Logo 2 -->
-                <div>
-                    <img src="{{ asset('images/Logo_K3.png') }}" alt="Logo K3" class="w-20 h-20">
+                <div class="flex items-center justify-center h-24">
+                    <img src="{{ asset('images/Logo_K3.png') }}" alt="Logo K3" class="object-contain h-full">
                 </div>
 
                 <!-- Logo 3 -->
-                <div class="ml-6">
-                    <img src="{{ asset('images/Logo_FST.png') }}" alt="Logo FST" class="w-20 h-20">
+                <div class="flex items-center justify-center h-20">
+                    <img src="{{ asset('images/logo_fst.png') }}" alt="Logo FST" class="object-contain h-full">
                 </div>
             </div>
 

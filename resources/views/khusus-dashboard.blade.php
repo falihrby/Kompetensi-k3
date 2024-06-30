@@ -61,7 +61,7 @@
             <div class="px-4 py-2 overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="flex items-center justify-between p-4">
                     <div class="text-xl font-semibold text-gray-900">
-                        {{ __('Panduan Kompetensi Khusus ' . $labName) }}
+                        {{ __('Panduan Kompetensi ' . $labName) }}
                     </div>
                 </div>
                 <hr class="h-px my-2 bg-gray-100 border-0 dark:bg-gray-200">

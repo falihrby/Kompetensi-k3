@@ -114,14 +114,15 @@
     </div>
 
     <!-- Modal -->
-    <div id="confirmation-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75">
+    <div id="confirmation-modal"
+        class="fixed inset-0 z-50 items-center justify-center hidden bg-gray-800 bg-opacity-75">
         <div class="flex flex-col justify-center items-center px-5 py-6 bg-white rounded-2xl shadow-sm max-w-[342px]">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-12 h-12 text-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="green"
+                class="size-12">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
             </svg>
-            <h3 class="mt-2 text-xl font-bold text-center text-slate-800">Apakah kamu mau mengerjakan Lab lain jika
+            <h3 class="mt-2 text-lg font-bold text-center text-slate-800">Apakah kamu mau mengerjakan Lab lain jika
                 diperlukan?</h3>
             <div class="flex justify-center gap-2 mt-4">
                 <button id="cancel-btn" class="px-4 py-2 text-sm text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
@@ -134,11 +135,15 @@
 
     <script>
         function showModal() {
-            document.getElementById('confirmation-modal').classList.remove('hidden');
+            const modal = document.getElementById('confirmation-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
         function hideModal() {
-            document.getElementById('confirmation-modal').classList.add('hidden');
+            const modal = document.getElementById('confirmation-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
         }
 
         function submitForm(isYes) {
