@@ -64,6 +64,8 @@
                             Kategori Ujian</th>
                         <th class="text-xs tracking-wider text-center text-gray-800 border border-gray-800 ">
                             Keterangan</th>
+                        <th class="text-xs tracking-wider text-center text-gray-800 border border-gray-800 ">
+                            Ujian Ke Berapa</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
@@ -87,6 +89,8 @@
                                 {{ $kompetensiResult->kategori_ujian }}</td>
                             <td class="text-xs text-center align-top border border-gray-800 whitespace-nowrap">
                                 {{ $kompetensiResult->keterangan }}</td>
+                            <td class="text-xs text-center align-top border border-gray-800 whitespace-nowrap">
+                                {{ $kompetensiResult->ujian_ke_berapa }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -97,4 +101,5 @@
         window.print();
     </script>
 </body>
+
 </html>

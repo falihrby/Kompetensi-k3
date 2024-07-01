@@ -25,10 +25,6 @@ require __DIR__ . '/auth.php';
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
-    // Profile Routes
-    // Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // General Competency Participant Routes
     Route::prefix('kompetensi-umum')->group(function () {
