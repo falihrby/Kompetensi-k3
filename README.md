@@ -1,6 +1,6 @@
 # Website for Basic Laboratory K3 Competency Assessment
 
-![K3 Logo](public/images/logo_k3.png)
+<img src="public/images/logo_k3.png" alt="K3 Logo" width="200"/>
 
 This project aims to optimize the laboratory center at UIN Syarif Hidayatullah Jakarta through the assessment of basic K3 competencies.
 
