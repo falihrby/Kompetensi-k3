@@ -1,6 +1,6 @@
 # Website for Basic Laboratory K3 Competency Assessment
 
-![K3 Logo](images/logo_k3.png)
+![K3 Logo](public/images/logo_k3.png)
 
 This project aims to optimize the laboratory center at UIN Syarif Hidayatullah Jakarta through the assessment of basic K3 competencies.
 
@@ -49,7 +49,7 @@ This project is licensed under the MIT License. See the [LICENSE](./LICENSE) fil
 
 For further questions or technical support, please contact us at [falihrahmat534@gmail.com](mailto:falihrahmat534@gmail.com).
 
-![Login Screenshot](images/login_k3.png)
-![Participant Dashboard Screenshot](images/dashboard_pesertak3.png)
-![Competency Exam Screenshot](images/soal_kompetensik3.png)
-![Admin Dashboard Screenshot](images/dashboard_admink3.png)
+![Login Screenshot](public/images/login_k3.png)
+![Participant Dashboard Screenshot](public/images/dashboard_pesertak3.png)
+![Competency Exam Screenshot](public/images/soal_kompetensik3.png)
+![Admin Dashboard Screenshot](public/images/dashboard_admink3.png)
