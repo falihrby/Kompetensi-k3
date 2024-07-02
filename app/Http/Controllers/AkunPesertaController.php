@@ -16,8 +16,20 @@ class AkunPesertaController extends Controller
 {
     public function index(Request $request): View
     {
-        $akunPeserta = User::where('usertype', 'user')->paginate(15);
-        return view('akun.akun-peserta', ['akunPeserta' => $akunPeserta]);
+        $search = $request->input('search');
+        $akunPeserta = User::where('usertype', 'user')
+            ->when($search, function ($query, $search) {
+                return $query->where('id', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%")
+                    ->orWhere('name', 'LIKE', "%{$search}%")
+                    ->orWhere('nomor', 'LIKE', "%{$search}%")
+                    ->orWhere('program_studi', 'LIKE', "%{$search}%")
+                    ->orWhere('fakultas', 'LIKE', "%{$search}%")
+                    ->orWhere('instansi', 'LIKE', "%{$search}%");
+            })
+            ->paginate(15);
+
+        return view('akun.akun-peserta', compact('akunPeserta', 'search'));
     }
 
     public function create(): View

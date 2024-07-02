@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class Admin
 {
@@ -16,10 +17,19 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->usertype !== 'admin') {
-            return redirect()->route('dashboard');
+        if (Auth::check()) {
+            $user = Auth::user();
+            Log::info('Middleware check - User type: ' . $user->usertype);
+
+            if ($user->usertype !== 'admin') {
+                Log::info('Redirecting non-admin user to dashboard');
+                return redirect()->route('dashboard');
+            }
+        } else {
+            Log::info('No authenticated user');
         }
 
         return $next($request);
     }
 }
+

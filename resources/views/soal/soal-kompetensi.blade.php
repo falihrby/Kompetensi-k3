@@ -35,6 +35,12 @@
                 <div class="text-base font-semibold text-gray-900">
                     {{ __('Data Soal Kompetensi') }}
                 </div>
+                <div class="col-md-6">
+                    <form action="{{ route('soal-kompetensi.index') }}" method="GET">
+                        <input type="text" name="search" class="px-4 py-2 border rounded-md" placeholder="Pencarian...">
+                        <button type="submit" class="px-4 py-2 text-white bg-green-600 rounded-md hover:bg-green-800">Cari</button>
+                    </form>
+                </div>
             </div>
             <hr class="h-px m-2 bg-gray-100 border-0 dark:bg-gray-200">
 
@@ -42,38 +48,25 @@
                 <table class="min-w-full overflow-hidden bg-white border border-gray-300 shadow-md sm:rounded-lg">
                     <thead class="bg-gray-100">
                         <tr>
-                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">No
-                            </th>
-                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">ID
-                            </th>
-                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">
-                                Tanggal Buat</th>
-                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">
-                                Pertanyaan</th>
-                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">
-                                Kategori</th>
-                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">
-                                Kunci Jawaban</th>
-                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">
-                                Gambar</th>
-                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">
-                                Aksi</th>
+                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">No</th>
+                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">ID</th>
+                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">Tanggal Buat</th>
+                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">Pertanyaan</th>
+                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">Kategori</th>
+                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">Kunci Jawaban</th>
+                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">Gambar</th>
+                            <th class="px-4 py-2 text-xs font-bold tracking-wider text-left text-gray-800 uppercase">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         @foreach ($soalKompetensis as $soalKompetensi)
                             <tr>
                                 <td class="px-4 py-2 text-xs align-top whitespace-nowrap">{{ $loop->iteration }}</td>
-                                <td class="px-4 py-2 text-xs align-top whitespace-nowrap">
-                                    {{ $soalKompetensi->formatted_id }}</td>
-                                <td class="px-4 py-2 text-xs align-top whitespace-nowrap text-wrap">
-                                    {{ $soalKompetensi->created_at }}</td>
-                                <td class="px-4 py-2 text-xs align-top whitespace-nowrap text-wrap">
-                                    {{ $soalKompetensi->pertanyaan }}</td>
-                                <td class="px-4 py-2 text-xs align-top whitespace-nowrap">
-                                    {{ $soalKompetensi->kategori }}</td>
-                                <td class="px-4 py-2 text-xs align-top whitespace-nowrap">
-                                    {{ $soalKompetensi->kunci_jawaban }}</td>
+                                <td class="px-4 py-2 text-xs align-top whitespace-nowrap">{{ $soalKompetensi->formatted_id }}</td>
+                                <td class="px-4 py-2 text-xs align-top whitespace-nowrap text-wrap">{{ $soalKompetensi->created_at }}</td>
+                                <td class="px-4 py-2 text-xs align-top whitespace-nowrap text-wrap">{{ $soalKompetensi->pertanyaan }}</td>
+                                <td class="px-4 py-2 text-xs align-top whitespace-nowrap">{{ $soalKompetensi->kategori }}</td>
+                                <td class="px-4 py-2 text-xs align-top whitespace-nowrap">{{ $soalKompetensi->kunci_jawaban }}</td>
                                 <td class="px-4 py-2 text-xs align-top whitespace-nowrap">
                                     @if ($soalKompetensi->gambar)
                                         <img src="{{ asset('storage/' . $soalKompetensi->gambar) }}" alt="Gambar Soal"
@@ -83,8 +76,7 @@
                                     @endif
                                 </td>
                                 <td class="flex px-4 py-2 space-x-1 text-xs font-medium align-top whitespace-nowrap">
-                                    <a href="{{ route('soal-kompetensi.show', $soalKompetensi->id) }}"
-                                        class="p-2 text-white bg-green-600 rounded-sm hover:bg-green-800">
+                                    <a href="{{ route('soal-kompetensi.show', $soalKompetensi->id) }}" class="p-2 text-white bg-green-600 rounded-sm hover:bg-green-800">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                             class="w-4 h-4">
                                             <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
@@ -93,16 +85,13 @@
                                                 clip-rule="evenodd" />
                                         </svg>
                                     </a>
-                                    <a href="{{ route('soal-kompetensi.edit', $soalKompetensi->id) }}"
-                                        class="p-2 text-white bg-green-600 rounded-sm hover:bg-green-800">
+                                    <a href="{{ route('soal-kompetensi.edit', $soalKompetensi->id) }}" class="p-2 text-white bg-green-600 rounded-sm hover:bg-green-800">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                             class="w-4 h-4">
-                                            <path
-                                                d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
+                                            <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
                                         </svg>
                                     </a>
-                                    <button type="button" data-id="{{ $soalKompetensi->id }}"
-                                        data-action="{{ route('soal-kompetensi.destroy', $soalKompetensi->id) }}"
+                                    <button type="button" data-id="{{ $soalKompetensi->id }}" data-action="{{ route('soal-kompetensi.destroy', $soalKompetensi->id) }}"
                                         class="p-2 text-white bg-green-600 rounded-sm hover:bg-green-800 delete-button">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                             class="w-4 h-4">
@@ -124,8 +113,7 @@
     </div>
 
     <!-- Delete Confirmation Modal -->
-    <div id="delete-confirmation-modal"
-        class="fixed inset-0 z-50 items-center justify-center hidden bg-gray-800 bg-opacity-75">
+    <div id="delete-confirmation-modal" class="fixed inset-0 z-50 items-center justify-center hidden bg-gray-800 bg-opacity-75">
         <div class="flex flex-col justify-center items-center px-5 py-6 bg-white rounded-2xl shadow-sm max-w-[342px]">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="text-green-600 size-12">

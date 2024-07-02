@@ -68,6 +68,9 @@
                         style="max-height: 400px; overflow-y: auto;">
                         <div class="text-sm text-gray-900">
                             <div class="space-y-4">
+                                <p><b>Penilaian kompetensi dasar K3 laboratorium ini digunakan
+                                    sebagai syarat untuk kegiatan penelitian di pusat laboratorium terpadu UIN
+                                    Jakarta</b></p>
                                 <li>Ujian sertifikasi K3 Laboratorium dilakukan di rumah masing-masing. Pastikan koneksi
                                     internet Anda stabil selama ujian berlangsung.</li>
                                 <li>Soal ujian terdiri dari 10 soal kompetensi umum yang harus

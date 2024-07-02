@@ -40,6 +40,12 @@
                 <div class="text-base font-semibold text-gray-900">
                     {{ __('Data Program Studi') }}
                 </div>
+                <div class="col-md-6">
+                    <form action="{{ route('program-studi.index') }}" method="GET">
+                        <input type="text" name="search" class="px-4 py-2 border rounded-md" placeholder="Pencarian...">
+                        <button type="submit" class="px-4 py-2 text-white bg-green-600 rounded-md hover:bg-green-800">Cari</button>
+                    </form>
+                </div>
             </div>
             <hr class="h-px m-2 bg-gray-100 border-0 dark:bg-gray-200">
             <!-- Tabel Program Studi -->

@@ -12,7 +12,20 @@ class SoalKompetensiController extends Controller
 {
     public function index(Request $request): View
     {
-        $soalKompetensis = SoalKompetensi::paginate(15);
+        $search = $request->input('search');
+        $soalKompetensis = SoalKompetensi::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('pertanyaan', 'LIKE', "%{$search}%")
+                    ->orWhere('kategori', 'LIKE', "%{$search}%")
+                    ->orWhere('opsi_a', 'LIKE', "%{$search}%")
+                    ->orWhere('opsi_b', 'LIKE', "%{$search}%")
+                    ->orWhere('opsi_c', 'LIKE', "%{$search}%")
+                    ->orWhere('opsi_d', 'LIKE', "%{$search}%")
+                    ->orWhere('created_at', 'LIKE', "%{$search}%")
+                    ->orWhere('kunci_jawaban', 'LIKE', "%{$search}%");
+            })
+            ->paginate(15);
+
         return view('soal.soal-kompetensi', ['soalKompetensis' => $soalKompetensis]);
     }
 

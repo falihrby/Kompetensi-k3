@@ -7,11 +7,19 @@ use Illuminate\Http\Request;
 
 class InstansiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $instansis = Instansi::paginate(15);
+        $search = $request->input('search');
+        $instansis = Instansi::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('id', 'LIKE', "%{$search}%")
+                    ->orWhere('name', 'LIKE', "%{$search}%");
+            })
+            ->paginate(15);
+
         $newId = $this->generateNewId();
-        return view('instansi.instansi', compact('instansis', 'newId'));
+
+        return view('instansi.instansi', compact('instansis', 'newId', 'search'));
     }
 
     public function store(Request $request)

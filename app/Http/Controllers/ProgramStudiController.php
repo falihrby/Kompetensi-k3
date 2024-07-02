@@ -8,11 +8,19 @@ use Illuminate\Support\Facades\Log;
 
 class ProgramStudiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $programStudis = ProgramStudi::paginate(15);
+        $search = $request->input('search');
+        $programStudis = ProgramStudi::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('id', 'LIKE', "%{$search}%")
+                    ->orWhere('nama', 'LIKE', "%{$search}%");
+            })
+            ->paginate(15);
+
         $newId = $this->generateNewId();
-        return view('prodi.program-studi', compact('programStudis', 'newId'));
+
+        return view('prodi.program-studi', compact('programStudis', 'newId', 'search'));
     }
 
     public function store(Request $request)

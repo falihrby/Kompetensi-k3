@@ -7,11 +7,19 @@ use Illuminate\Http\Request;
 
 class FakultasController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $fakultas = Fakultas::paginate(15);
+        $search = $request->input('search');
+        $fakultas = Fakultas::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('id', 'LIKE', "%{$search}%")
+                    ->orWhere('nama', 'LIKE', "%{$search}%");
+            })
+            ->paginate(15);
+
         $newId = $this->generateNewId();
-        return view('fakultas.fakultas', compact('fakultas', 'newId'));
+
+        return view('fakultas.fakultas', compact('fakultas', 'newId', 'search'));
     }
 
     public function store(Request $request)
