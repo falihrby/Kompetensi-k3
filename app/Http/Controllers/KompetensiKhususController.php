@@ -130,6 +130,11 @@ class KompetensiKhususController extends Controller
                 'ujian_ke_berapa' => $ujianKeBerapa,
             ]);
 
+            // Insert or update kelulusan
+            KompetensiResult::insertKelulusanIfPassed($peserta->id);
+
+            DB::commit();
+
             DB::commit();
 
             session()->forget(['answers', 'start_time', 'question_order']);

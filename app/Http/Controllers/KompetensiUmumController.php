@@ -116,6 +116,8 @@ class KompetensiUmumController extends Controller
             // Trigger the event
             event(new KompetensiResultCreated($kompetensiResult));
 
+            KompetensiResult::insertKelulusanIfPassed($peserta->id);
+
             DB::commit();
 
             $redirectUrl = route('kompetensi-umum.hasil');

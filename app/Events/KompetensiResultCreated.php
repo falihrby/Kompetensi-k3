@@ -1,21 +1,19 @@
 <?php
-// File: app/Events/KompetensiResultCreated.php
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\KompetensiResult;
 
 class KompetensiResultCreated
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, SerializesModels;
 
     public $kompetensiResult;
 
-    public function __construct($kompetensiResult)
+    public function __construct(KompetensiResult $kompetensiResult)
     {
         $this->kompetensiResult = $kompetensiResult;
     }
 }
-

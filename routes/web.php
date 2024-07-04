@@ -9,6 +9,7 @@ use App\Http\Controllers\InstansiController;
 use App\Http\Controllers\KompetensiKhususController;
 use App\Http\Controllers\KompetensiUmumController;
 use App\Http\Controllers\LabController;
+use App\Http\Controllers\DataKelulusanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProgramStudiController;
 use App\Http\Controllers\ResultController;
@@ -48,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/store-jawaban', [KompetensiKhususController::class, 'storeJawaban'])->name('kompetensi-khusus.storeJawaban');
         Route::get('/hasil', [KompetensiKhususController::class, 'hasilKompetensi'])->name('kompetensi-khusus.hasil');
         Route::post('/retry-kompetensikhusus', [KompetensiKhususController::class, 'retryKompetensiKhusus'])->name('retry-kompetensikhusus');
+        Route::get('laporan/kelulusan/sertifikat/{nama}', [DataKelulusanController::class, 'sertifikatKelulusan'])->name('laporan.kelulusan.sertifikat');
     });
 
     // Participant Routes
@@ -62,6 +64,11 @@ Route::middleware(['auth'])->group(function () {
 
         // Program Studi Routes
         Route::resource('program-studi', ProgramStudiController::class);
+
+        // Data Kelulusan Routes
+        Route::get('laporan/data-kelulusan', [DataKelulusanController::class, 'index'])->name('laporan.kelulusan.data-kelulusan');
+        Route::get('laporan/data-kelulusan/{id}', [DataKelulusanController::class, 'show'])->name('laporan.kelulusan.show');
+        Route::get('laporan/kelulusan/cetak', [DataKelulusanController::class, 'cetakKelulusan'])->name('laporan.kelulusan.cetak');
 
         // Fakultas Routes
         Route::resource('fakultas', FakultasController::class);
