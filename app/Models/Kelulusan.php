@@ -20,4 +20,12 @@ class Kelulusan extends Model
         'instansi',
         'keterangan',
     ];
+
+    /**
+     * Check if the user has passed all exams.
+     */
+    public static function checkIfPassed(int $userId): bool
+    {
+        return self::where('user_id', $userId)->exists();
+    }
 }

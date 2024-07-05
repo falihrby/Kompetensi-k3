@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Kelulusan;
+use App\Models\KompetensiResult;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,9 +31,33 @@ class AuthenticatedSessionController extends Controller
             $request->authenticate();
             $request->session()->regenerate();
 
+            $user = $request->user();
+
             // Check user type and redirect accordingly
-            if ($request->user()->usertype === 'admin') {
+            if ($user->usertype === 'admin') {
                 return redirect()->route('admin.dashboard');
+            }
+
+            // Check if there are any competency results for the user
+            $hasCompetencyResults = KompetensiResult::where('user_id', $user->id)->exists();
+
+            // If no competency results, redirect to the dashboard
+            if (!$hasCompetencyResults) {
+                return redirect()->intended(route('dashboard'));
+            }
+
+            // Check if the user has passed all required competencies
+            KompetensiResult::insertKelulusanIfPassed($user->id);
+
+            // Check if user data exists in kelulusan table
+            if (Kelulusan::checkIfPassed($user->id)) {
+                return redirect()->route('hasil-akhir');
+            }
+
+            // Redirect based on competency status
+            if (KompetensiResult::hasPassedGeneralCompetency($user->id) ||
+                (!KompetensiResult::hasPassedGeneralCompetency($user->id) && !KompetensiResult::hasSpecialCompetencyData($user->id))) {
+                return redirect()->route('pilih-lab');
             }
 
             return redirect()->intended(route('dashboard'));

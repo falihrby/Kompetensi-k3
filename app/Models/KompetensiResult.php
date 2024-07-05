@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Events\KompetensiResultCreated;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -27,19 +26,32 @@ class KompetensiResult extends Model
         'jumlah_soal_benar', 'jumlah_soal_salah', 'user_id', 'ujian_ke_berapa',
     ];
 
-    public static function hasPassedRequiredCompetencies($participantId)
+    public static function hasPassedGeneralCompetency($participantId)
     {
-        $generalPassed = self::where('user_id', $participantId)
+        return self::where('user_id', $participantId)
             ->where('kategori_ujian', self::GENERAL_COMPETENCY)
             ->where('keterangan', self::PASSED_STATUS)
             ->exists();
+    }
 
-        $specialPassed = self::where('user_id', $participantId)
-            ->where('kategori_ujian', 'LIKE', 'Khusus%')
+    public static function hasPassedSpecialCompetency($participantId)
+    {
+        return self::where('user_id', $participantId)
+            ->where('kategori_ujian', 'LIKE', self::SPECIAL_COMPETENCY . '%')
             ->where('keterangan', self::PASSED_STATUS)
             ->exists();
+    }
 
-        return $generalPassed && $specialPassed;
+    public static function hasSpecialCompetencyData($participantId)
+    {
+        return self::where('user_id', $participantId)
+            ->where('kategori_ujian', 'LIKE', self::SPECIAL_COMPETENCY . '%')
+            ->exists();
+    }
+
+    public static function hasPassedRequiredCompetencies($participantId)
+    {
+        return self::hasPassedGeneralCompetency($participantId) && self::hasPassedSpecialCompetency($participantId);
     }
 
     public static function insertKelulusanIfPassed($participantId)
