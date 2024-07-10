@@ -6,7 +6,7 @@
         @csrf
 
         <div class="px-8 py-6">
-            <div class="flex items-center justify-center py-2 space-x-4">
+            <div class="flex items-center justify-center pb-2 space-x-4">
                 <!-- Logo 1 -->
                 <div class="flex items-center justify-center h-24">
                     <img src="{{ asset('images/Logo_UIN.png') }}" alt="Logo UIN" class="object-contain h-full">

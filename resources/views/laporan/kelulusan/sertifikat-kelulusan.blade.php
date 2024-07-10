@@ -72,7 +72,7 @@
             position: absolute;
             inset: 0;
             display: flex;
-            align-items: center;
+            margin-top: 37%;
             justify-content: center;
             font-size: x-large;
             color: #2d2c2c;
@@ -92,7 +92,7 @@
         }
 
         .text-overlay .name {
-            margin-top: 17%;
+            margin-top: 16%;
             font-weight: bold;
             font-size: 3rem;
             color: #2f2d2d;
