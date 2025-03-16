@@ -4,6 +4,8 @@
 
 This project aims to optimize the laboratory center at UIN Syarif Hidayatullah Jakarta through the assessment of basic K3 competencies.
 
+Visit our website: [Basic Laboratory K3 Competency Assessment](https://kompetensi.puslab.net)
+
 ## Key Features
 
 ### For Users
@@ -52,8 +54,6 @@ This project is licensed under the MIT License. See the [LICENSE](./LICENSE) fil
 ## Contact
 
 For further questions or technical support, please contact us at [falihrahmat534@gmail.com](mailto:falihrahmat534@gmail.com).
-
-Visit our website: [Basic Laboratory K3 Competency Assessment](https://kompetensi.puslab.net)
 
 ![Login Screenshot](public/images/login_k3.png)
 ![Participant Dashboard Screenshot](public/images/dashboard_pesertak3.png)
